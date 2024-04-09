@@ -957,7 +957,7 @@ apiRouter.delete(
 );
 // Add User Admin
 // /shersocial/api/admin/add-admin
-apiRouter.put(
+apiRouter.post(
     "/admin/add-admin",
     requireAuth({ type: "json", message: "This route requires authentication." }), // Require logged-in user
     requireAdmin({ type: "json", title: "Access Denied", message: "You do not have access to this route." }), // Require admin user
@@ -991,7 +991,7 @@ apiRouter.put(
 )
 // Remove User Admin
 // /shersocial/api/admin/remove-admin
-apiRouter.put(
+apiRouter.post(
     "/admin/remove-admin",
     requireAuth({ type: "json", message: "This route requires authentication." }), // Require logged-in user
     requireAdmin({ type: "json", title: "Access Denied", message: "You do not have access to this route." }), // Require admin user

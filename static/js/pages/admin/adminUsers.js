@@ -137,7 +137,7 @@ const handleCancelDeleteUser = () => {
 const handleAssignAdmin = async (e) => {
     const userId = e.target.getAttribute("data-userid");
     const res = await fetch(`/shersocial/api/admin/add-admin?userId=${userId}`, {
-        method: "PUT"
+        method: "POST"
     });
     if (res.ok) {
         renderCurrentUsers();
@@ -146,7 +146,7 @@ const handleAssignAdmin = async (e) => {
 const handleUnassignAdmin = async (e) => {
     const userId = e.target.getAttribute("data-userid");
     const res = await fetch(`/shersocial/api/admin/remove-admin?userId=${userId}`, {
-        method: "PUT"
+        method: "POST"
     });
     if (res.ok) {
         renderCurrentUsers();
