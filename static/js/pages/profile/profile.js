@@ -30,9 +30,8 @@ const appendPosts = (posts) => {
                     <hr class="hr m-0">
                     <section class="card-body">
                         <h4 class="m-0">${p.title}</h4>
-                        <p class="m-0 text-secondary">Posted ${new Date(p.createdAt).toLocaleString()}</p>
                         <p class="text-secondary m-0">
-                        ${p.privacy === "public"
+                        ${p.timeSince} | ${p.privacy === "public"
                         ? 'Public <i class="fa-solid fa-globe"></i>' : p.privacy === "members"
                             ? 'Members Only <i class="fa-solid fa-user"></i>'
                             : 'Private <i class="fa-solid fa-lock"></i>'}
@@ -44,9 +43,8 @@ const appendPosts = (posts) => {
                 postsInnerHTML += `<a href="/shersocial/posts/${p.postId}" role="button" class="card text-decoration-none overflow-hidden">
                     <section class="card-body">
                         <h4 class="m-0">${p.title}</h4>
-                        <p class="m-0 text-secondary">Posted ${new Date(p.createdAt).toLocaleString()}</p>
                         <p class="text-secondary m-0">
-                        ${p.privacy === "public"
+                        ${p.timeSince} | ${p.privacy === "public"
                         ? 'Public <i class="fa-solid fa-globe"></i>' : p.privacy === "members"
                             ? 'Members Only <i class="fa-solid fa-user"></i>'
                             : 'Private <i class="fa-solid fa-lock"></i>'}

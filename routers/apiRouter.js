@@ -301,7 +301,10 @@ apiRouter.get(
                         ${page > 1 ? ` OFFSET ${((page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) - 1) * perPage}` : ''}`, (err, rows) => {
                             if (err) throw err;
                             return res.status(200).json({
-                                status: 200, ok: true, detail: "Posts fetched!", posts: rows,
+                                status: 200, ok: true, detail: "Posts fetched!",
+                                posts: rows.map(r => {
+                                    return { ...r, timeSince: getTimeSince(r.createdAt) }
+                                }),
                                 page: parseInt((page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) > 0 ? (page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) : 1),
                                 resultsPerPage: parseInt(perPage),
                                 pages: Math.ceil(postCount[0].count / perPage)
@@ -324,7 +327,10 @@ apiRouter.get(
                         ${page > 1 ? ` OFFSET ${((page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) - 1) * perPage}` : ''}`, (err, rows) => {
                             if (err) throw err;
                             return res.status(200).json({
-                                status: 200, ok: true, detail: "Posts fetched!", posts: rows,
+                                status: 200, ok: true, detail: "Posts fetched!",
+                                posts: rows.map(r => {
+                                    return { ...r, timeSince: getTimeSince(r.createdAt) }
+                                }),
                                 page: parseInt((page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) > 0 ? (page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) : 1),
                                 resultsPerPage: parseInt(perPage),
                                 pages: Math.ceil(postCount[0].count / perPage)
@@ -347,7 +353,10 @@ apiRouter.get(
                         ${page > 1 ? ` OFFSET ${((page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) - 1) * perPage}` : ''}`, (err, rows) => {
                             if (err) throw err;
                             return res.status(200).json({
-                                status: 200, ok: true, detail: "Posts fetched!", posts: rows,
+                                status: 200, ok: true, detail: "Posts fetched!",
+                                posts: rows.map(r => {
+                                    return { ...r, timeSince: getTimeSince(r.createdAt) }
+                                }),
                                 page: parseInt((page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) > 0 ? (page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) : 1),
                                 resultsPerPage: parseInt(perPage),
                                 pages: Math.ceil(postCount[0].count / perPage)
