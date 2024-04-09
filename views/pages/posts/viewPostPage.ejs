@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <%- include('../../partials/head.ejs', {title: locals.post.title, image: locals.post.images.length > 0 ? locals.post.images[0] : null}) %>
+  <%- include('../../partials/head.ejs', {title: locals.post.title, image: locals.post.images.length > 0 ? locals.post.images[0].image : null}) %>
   <link rel="stylesheet" href="/shersocial/static/css/posts.css">
 </head>
 
