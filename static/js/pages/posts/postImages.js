@@ -158,15 +158,15 @@ const handlePublish = async () => {
 const handleCancel = async () => {
     setLoading(true);
     if (!post) {
-        window.location = "/";
+        window.location = "/shersocial";
     } else {
         const res = await fetch(`/shersocial/api/posts/delete?postId=${post.postId}`, {
             method: "DELETE"
         });
         if (res.ok) {
-            window.location = "/";
+            window.location = "/shersocial";
         } else {
-            window.location = "/";
+            window.location = "/shersocial";
             setLoading(false);
         }
     }
