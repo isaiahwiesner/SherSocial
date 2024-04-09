@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <%- include('../../partials/head.ejs', {title: locals.auth.user && locals.auth.user.userId === locals.user.userId ? "Profile" : locals.user.fullName + " (@" + locals.user.username + ")", image: locals.user.image}) %>
+  <%- include('../../partials/head.ejs', {title: locals.auth.user && locals.auth.user.userId === locals.user.userId ? "Profile" : locals.user.fullName + " (@" + locals.user.username + ")", image: locals.user.image ? locals.user.image.startsWith('http') ? locals.user.image : 'https://wiesneri.dev.fast.sheridanc.on.ca' + locals.user.image : null}) %>
 </head>
 
 <body>
