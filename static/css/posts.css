@@ -2,9 +2,10 @@ pre {
     font-family: var(--bs-body-font-family);
     font-size: var(--bs-body-font-size);
     text-wrap: wrap;
-    white-space: pre;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
+
 pre img {
     border: 2px solid var(--bs-gray-300);
 }
