@@ -66,10 +66,10 @@ const renderCurrentUsers = async () => {
           <td class="align-middle">
           ${u.admin === 1
                 ? `<button title="Unassign admin" role="button" class="btn btn-secondary" data-userid="${u.userId}">
-                    <i class="fa-solid fa-user-slash"></i>
+                    <i class="fa-solid fa-user-slash" data-userid="${u.userId}"></i>
                 </button>`
                 : `<button title="Assign admin" role="button" class="btn btn-primary" data-userid="${u.userId}">
-                    <i class="fa-solid fa-user-shield"></i>
+                    <i class="fa-solid fa-user-shield" data-userid="${u.userId}"></i>
                 </button>`
             }
             <a title="View user" role="button" class="btn btn-info" href="/shersocial/@${u.username}" target="_blank">
