@@ -33,7 +33,7 @@ const changePage = (page) => {
     };
 };
 const renderCurrentSignupCodes = async () => {
-    var url = `/api/admin/signup-codes?`;
+    var url = `/shersocial/api/admin/signup-codes?`;
     if (!queryParams.q) delete queryParams.q;
     url += Object.keys(queryParams).map(k => `${k}=${encodeURIComponent(queryParams[k])}`).join("&");
     if (history.pushState) {
@@ -106,7 +106,7 @@ const handleDeleteOpen = (e) => {
     document.getElementById("delete-modal-signup-code").innerText = currentDeleteSignupCode.signupCode;
 };
 const handleDeleteSignupCode = async () => {
-    const res = await fetch(`/api/admin/delete-signup-code?signupCode=${currentDeleteSignupCode.signupCode}`, {
+    const res = await fetch(`/shersocial/api/admin/delete-signup-code?signupCode=${currentDeleteSignupCode.signupCode}`, {
         method: "DELETE"
     });
     if (res.ok) {
