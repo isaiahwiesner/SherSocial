@@ -14,7 +14,7 @@ const getPostById = (postId) => {
             con.query(`SELECT * FROM post_images
             WHERE (postId = '${postId}')`, (err, rows2) => {
                 if (err) resolve(null); // Error, resolve null
-                con.query(`SELECT userId, username, firstName, lastName, CONCAT(firstName, ' ', lastName) as fullName
+                con.query(`SELECT userId, username, firstName, lastName, CONCAT(firstName, ' ', lastName) as fullName, image
                 FROM users
                 WHERE (userId = '${rows[0].createdBy}')`, (err, rows3) => {
                     if (err) resolve(null); // Error, resolve null
