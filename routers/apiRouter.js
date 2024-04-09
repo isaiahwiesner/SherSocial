@@ -966,7 +966,7 @@ apiRouter.post(
         if (!userId) {
             return res.status(400).json({ status: 400, ok: false, detail: "User ID must be provided in query parameters." });
         }
-        const user = await getUser(userId)
+        const user = await getUserById(userId)
         if (!user) {
             return res.status(404).json({ status: 404, ok: false, detail: "User not found." });
         }
