@@ -39,7 +39,7 @@
               <%- include('./avatar.ejs', {image: locals.auth.user.image, size: 36, padding: 2}) %>
             </a>
             <!-- Dropdown Menu -->
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu dropdown-menu-end">
               <!-- Full name text (only on desktop as mobile sees it as toggler) -->
               <li><a class="dropdown-item disabled d-none d-lg-block" role="button"><%- locals.auth.user.fullName %></a></li>
               <!-- Profile Link -->
