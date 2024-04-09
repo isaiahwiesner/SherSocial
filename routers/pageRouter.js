@@ -105,7 +105,6 @@ pageRouter.get(
 // /shersocial/@username
 pageRouter.get(
     "/@:username",
-    requireAuth(),
     async (req, res) => {
         const username = req.params.username;
         if (!username || !(await getUserByUsername(username))) {
