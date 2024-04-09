@@ -278,6 +278,7 @@ pageRouter.get(
                         post: {
                             ...post,
                             timeSince: getTimeSince(post.createdAt),
+                            timeSinceUpdate: getTimeSince(post.updatedAt),
                             formattedContent
                         },
                         isLiked: isLikedQ.length > 0

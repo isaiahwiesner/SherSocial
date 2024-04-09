@@ -24,7 +24,7 @@
           <%- locals.post.timeSince %> | <%- locals.post.privacy === "public"
             ? 'Public <i class="fa-solid fa-globe"></i>' : locals.post.privacy === "members"
                 ? 'Members Only <i class="fa-solid fa-user"></i>'
-                : 'Private <i class="fa-solid fa-lock"></i>'%>
+                : 'Private <i class="fa-solid fa-lock"></i>'%> | Updated <%- locals.post.timeSinceUpdate %>
         </p>
       </section>
       <section class="card-body font-normal">
