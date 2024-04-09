@@ -1,9 +1,8 @@
 pre {
     font-family: var(--bs-body-font-family);
     font-size: var(--bs-body-font-size);
-    text-wrap: wrap;
-    overflow-wrap: break-word;
-    word-break: break-word;
+    white-space: wrap;
+    white-space-collapse: preserve-breaks;
 }
 
 pre img {
