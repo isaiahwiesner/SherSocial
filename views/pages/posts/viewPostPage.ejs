@@ -16,7 +16,6 @@
         <h2 class="mb-2"><%- locals.post.title %></h2>
         <a href="/shersocial/@<%- locals.post.user.username %>" class="text-black text-decoration-none">
           <section class="d-flex gap-3 mb-2">
-            <%- locals.post.user.image %>
             <%- include('../../partials/components/avatar.ejs', {image: locals.post.user.image}) %>
             <h5 class="m-0"><%- locals.post.user.fullName %> (@<%- locals.post.user.username %>)</h5>
           </section>
