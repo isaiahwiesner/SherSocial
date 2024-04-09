@@ -49,7 +49,7 @@ app.listen(env.express.PORT, () => {
         }
     }
     if (results.length > 0) {
-        console.log(`On your local network: http://${results[0]}:${env.express.PORT}`);
+        console.log(`On your local network: http://${results[0]}:${env.express.PORT}/shersocial`);
     }
 });
 
