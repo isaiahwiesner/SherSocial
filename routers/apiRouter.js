@@ -683,8 +683,13 @@ apiRouter.post(
                             '${req.body.image}'
                         )`, async (err) => {
                             if (err) throw err;
-                            con.commit();
-                            return res.status(200).json({ status: 200, ok: true, detail: "Post image added!" });
+                            con.query(`UPDATE posts
+                                SET updatedAt = ${Date.now()}
+                                WHERE (postId = '${postId}')`, async (err) => {
+                                if (err) throw err;
+                                con.commit();
+                                return res.status(200).json({ status: 200, ok: true, detail: "Post image added!" });
+                            });
                         });
                     }
                 }
@@ -696,8 +701,13 @@ apiRouter.post(
                     )`,
                         (err) => {
                             if (err) throw err;
-                            con.commit();
-                            return res.status(200).json({ status: 200, ok: true, detail: "Post image added!" });
+                            con.query(`UPDATE posts
+                                SET updatedAt = ${Date.now()}
+                                WHERE (postId = '${postId}')`, async (err) => {
+                                if (err) throw err;
+                                con.commit();
+                                return res.status(200).json({ status: 200, ok: true, detail: "Post image added!" });
+                            });
                         });
                 }
             } catch (e) {
@@ -729,7 +739,13 @@ apiRouter.delete(
                 con.query(`DELETE FROM post_images
                 WHERE (postId = '${postId}' AND image = '${imagePath}')`, (err) => {
                     if (err) throw err;
-                    return res.status(200).json({ status: 200, ok: true, detail: "Image removed!" });
+                    con.query(`UPDATE posts
+                        SET updatedAt = ${Date.now()}
+                        WHERE (postId = '${postId}')`, async (err) => {
+                        if (err) throw err;
+                        con.commit();
+                        return res.status(200).json({ status: 200, ok: true, detail: "Image removed!" });
+                    });
                 });
             } catch (e) {
                 return res.status(500).json({ status: 500, ok: false, detail: "Unable to add post image.", stack: e.stack });
