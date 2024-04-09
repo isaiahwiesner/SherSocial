@@ -22,7 +22,6 @@ const appendPosts = (posts) => {
         }
         var postsInnerHTML = "";
         posts.forEach(p => {
-            console.log(p)
             if (p.image) {
                 postsInnerHTML += `<a href="/shersocial/posts/${p.postId}" role="button" class="card text-decoration-none overflow-hidden">
                     <img src="${p.image}" alt="${p.title}" class="object-fit-cover" style="height: 12rem;">
