@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <%- include('../../partials/head.ejs', {title: locals.auth.user && locals.auth.user.userId === locals.user.userId ? "Profile" : locals.user.fullName + " (@" + locals.user.username + ")"}) %>
+  <%- include('../../partials/head.ejs', {title: locals.auth.user && locals.auth.user.userId === locals.user.userId ? "Profile" : locals.user.fullName + " (@" + locals.user.username + ")", image: locals.auth.user.image}) %>
 </head>
 
 <body>
