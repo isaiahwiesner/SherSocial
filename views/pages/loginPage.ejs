@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../partials/head.ejs', {title: "Log In"}) %>
+</head>
+
+<body>
+  <%- include('../partials/components/nav.ejs', {currentPage: "login"}) %>
+  <main class="container py-2 my-3">
+    <form id="login-form" class="card m-auto" style="max-width: 30rem;">
+      <section class="card-body">
+        <legend class="mb-3">Log In</legend>
+        <section class="mb-3">
+          <label for="username" class="mb-1">Username</label>
+          <input type="text" class="form-control" id="username" autocomplete="off" autocapitalize="off" aria-describedby="usernameHelper">
+          <small id="usernameHelper" class="form-text text-danger"></small>
+        </section>
+        <section class="mb-3">
+          <label for="password" class="mb-1">Password</label>
+          <input type="password" class="form-control" id="password" autocomplete="off" autocapitalize="off" aria-describedby="passwordHelper">
+          <small id="passwordHelper" class="form-text text-danger"></small>
+        </section>
+        <p id="form-error" class="form-text text-danger mb-3"></p>
+        <section class="d-flex flex-column gap-3">
+          <button class="btn btn-primary" type="submit" id="login-btn">
+            Log In
+          </button>
+          <section>
+            <p class="m-0">
+              <a href="/signup">Need an account? Sign up</a>
+            </p>
+            <p class="m-0">
+              <a href="/">Back</a>
+            </p>
+          </section>
+        </section>
+      </section>
+    </form>
+  </main>
+  <script src="/static/js/pages/login.js"></script>
+  <%- include('../partials/scripts.ejs') %>
+</body>
+
+
+</html>

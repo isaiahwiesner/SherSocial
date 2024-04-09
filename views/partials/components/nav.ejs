@@ -1,0 +1,99 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+  <!-- Container -->
+  <section class="container">
+    <!-- Brand -->
+    <a href="/" class="navbar-brand">SherSocial</a>
+    <!-- Mobile Nav Toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbar-items" aria-controls="navbar-items" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Offcanvas (sidebar mobile nav) -->
+    <section class="offcanvas offcanvas-end" id="navbar-items">
+      <!-- Sidebar Header -->
+      <section class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </section>
+      <!-- Body of nav -->
+      <section class="offcanvas-body">
+        <!-- Nav items to end -->
+        <ul class="navbar-nav justify-content-lg-end align-items-lg-center flex-grow-1 pe-3" style="height: 4rem;">
+          <!-- Home page link -->
+          <li class="nav-item">
+            <a class="nav-link <%= locals.currentPage === 'home' ? 'active' : '' %>" href="/">Home</a>
+          </li>
+          <!-- User is logged in -->
+          <% if (locals.auth.user) { %>
+          <!-- Post page link -->
+          <li class="nav-item">
+            <a class="nav-link <%= locals.currentPage === 'post' ? 'active' : '' %>" href="/post">Post</a>
+          </li>
+          <!-- Dropdown menu within nav -->
+          <li class="nav-item dropdown">
+            <!-- Button with full name as dropdown toggle on mobile -->
+            <a class="nav-link dropdown-toggle text-start w-100 text-truncate d-lg-none" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <%- locals.auth.user.fullName %>
+            </a>
+            <!-- Button with avatar as dropdown toggle on mobile -->
+            <a class="nav-link d-none d-lg-block ps-3" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <%- include('./avatar.ejs', {image: locals.auth.user.image, size: 36, padding: 2}) %>
+            </a>
+            <!-- Dropdown Menu -->
+            <ul class="dropdown-menu">
+              <!-- Full name text (only on desktop as mobile sees it as toggler) -->
+              <li><a class="dropdown-item disabled d-none d-lg-block" role="button"><%- locals.auth.user.fullName %></a></li>
+              <!-- Profile Link -->
+              <li><a class="dropdown-item btn btn-light <%= locals.currentPage === 'profile' ? 'active' : '' %>" href="/profile">Profile</a></li>
+              <!-- Edit Profile Link -->
+              <li><a class="dropdown-item btn btn-light <%= locals.currentPage === 'edit-profile' ? 'active' : '' %>" href="/profile/edit">Edit Profile</a></li>
+              <!-- Admin Dashboard Link -->
+              <% if (locals.auth.user.admin) { %>
+              <li><a class="dropdown-item btn btn-light <%= locals.currentPage === 'admin' ? 'active' : '' %>" href="/admin">Admin Dashboard</a></li>
+              <% } %>
+              <!-- Dropdown Divider -->
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <!-- Log out button that toggles confirmation modal -->
+              <li>
+                <button class="dropdown-item btn btn-light text-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                  Log Out
+                </button>
+              </li>
+            </ul>
+          </li>
+          <!-- User not logged in -->
+          <% } else { %>
+          <!-- Login page link -->
+          <li class="nav-item">
+            <a class="nav-link <%= locals.currentPage === 'login' ? 'active' : '' %>" href="/login<%= locals.generalizedPath == "/" ? "" : `?redirect=${encodeURIComponent(locals.generalizedPath.slice(1))}` %>">Log In</a>
+          </li>
+          <% } %>
+        </ul>
+      </section>
+    </section>
+  </section>
+</nav>
+
+<!-- Log Out Confirmation Modal -->
+<section class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <section class="modal-dialog">
+    <section class="modal-content">
+      <!-- Modal Header -->
+      <section class="modal-header">
+        <h1 class="modal-title fs-5" id="logoutModalLabel">Confirm Log Out</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </section>
+      <!-- Modal Body -->
+      <section class="modal-body">
+        <p>Are you sure you want to log out?</p>
+        <section class="d-flex flex-column gap-3">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
+          <button type="button" class="btn btn-danger" id="nav-logout">Yes</button>
+        </section>
+      </section>
+    </section>
+  </section>
+</section>
+
+<script src="/static/js/components/nav.js"></script>

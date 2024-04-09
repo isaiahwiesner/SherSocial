@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../partials/head.ejs', {title: locals.title ? locals.title : "Error"}) %>
+</head>
+
+<body>
+  <%- include('../partials/components/nav.ejs', {currentPage: "error"}) %>
+  <main class="container py-2">
+    <section class="d-flex flex-column align-items-center w-100 m-auto" style="max-width: 50rem;gap: 2rem">
+      <section class="d-flex flex-column align-items-center gap-3">
+        <h1 class="text-center">
+          <%= locals.title ? locals.title : 'Error' %>
+        </h1>
+        <p class="text-center">
+          <%= locals.message ? locals.message : 'The page could not be loaded.' %>
+        </p>
+      </section>
+      <p class="text-center">
+        <a href="<%= locals.errorLink ? locals.errorLink : '/' %>"><%= locals.errorLinkText ? locals.errorLinkText : 'Back to Homepage' %></a>
+      </p>
+    </section>
+  </main>
+  <%- include('../partials/scripts.ejs') %>
+</body>
+
+</html>

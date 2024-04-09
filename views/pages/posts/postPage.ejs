@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../../partials/head.ejs', {title: "Add Post"}) %>
+</head>
+
+<body>
+  <%- include('../../partials/components/nav.ejs', {currentPage: "post"}) %>
+  <main class="container py-2 my-3">
+    <form id="post-form" class="card m-auto" style="max-width: 30rem;">
+      <section class="card-body">
+        <legend class="mb-3">Add Post</legend>
+        <section class="mb-3">
+          <label for="title" class="mb-1">Title</label>
+          <input type="text" id="title" class="form-control" autocomplete="off" aria-describedby="titleHelper" value="<%- locals.post ? locals.post.title : '' %>">
+          <small id="titleHelper" class="form-text text-danger"></small>
+        </section>
+        <section class="mb-3">
+          <label for="content" class="mb-1">Content</label>
+          <textarea id="content" rows="5" class="form-control" autocomplete="off" aria-describedby="contentHelper"><%- locals.post ? locals.post.content : '' %></textarea>
+          <small id="contentHelper" class="form-text text-danger"></small>
+          <p class="m-0"><a class="form-text text-decoration-none" href="/posts/b3be0d71-b3d5-40e3-a2b1-eaebddd32bec" target="_blank">This field supports custom markdown-like features <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
+        </section>
+        <section class="mb-3">
+          <label for="privacy" class="mb-1">Privacy</label>
+          <select id="privacy" class="form-control" aria-describedby="privacyHelper">
+            <option value="public" <%- locals.post && locals.post.privacy === 'public' ? 'selected' : '' %>>Public</option>
+            <option value="members" <%- locals.post && locals.post.privacy === 'members' ? 'selected' : '' %>>Members Only</option>
+            <option value="private" <%- locals.post && locals.post.privacy === 'private' ? 'selected' : '' %>>Private</option>
+          </select>
+          <small id="privacyHelper" class="form-text text-danger"></small>
+          <p class="m-0 form-text" id="privacyInfo"></p>
+        </section>
+        <p id="form-error" class="form-text text-danger mb-3"></p>
+        <section class="d-flex flex-column gap-3">
+          <button type="submit" class="btn btn-primary" id="next-btn">
+            Next &nbsp;<i class="fa-solid fa-arrow-right"></i>
+          </button>
+          <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+        </section>
+      </section>
+    </form>
+  </main>
+
+  <%- include('../../partials/scripts.ejs') %>
+  <script>
+    const user = JSON.parse('<%- JSON.stringify(locals.auth.user) %>');
+    const post = JSON.parse('<%- locals.post ? JSON.stringify(locals.post).replace(/\\/g, "\\\\") : "null" %>');
+  </script>
+  <script src="/static/js/pages/posts/post.js"></script>
+</body>
+
+
+</html>

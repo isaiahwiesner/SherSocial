@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../../partials/head.ejs', {title: "Add Sign Up Code"}) %>
+</head>
+
+<body>
+  <%- include('../../partials/components/nav.ejs', {currentPage: "admin"}) %>
+  <main class="container py-2 my-3">
+    <form id="signup-code-form" class="card m-auto" style="max-width: 30rem;">
+      <section class="card-body">
+        <legend class="mb-3">Add Sign Up Code</legend>
+        <section class="mb-3">
+          <label for="signupCode" class="mb-1">Code</label>
+          <input type="text" id="signupCode" class="form-control" autocomplete="off" autocapitalize="off" aria-describedby="signupCodeHelper">
+          <small id="signupCodeHelper" class="form-text text-danger"></small>
+        </section>
+        <section class="mb-3">
+          <label for="expiresAt" class="mb-1">Expiry</label>
+          <input type="text" id="expiresAt" class="form-control" autocomplete="off" autocapitalize="off" aria-describedby="expiresAtHelper">
+          <small id="expiresAtHelper" class="form-text text-danger"></small>
+        </section>
+        <p id="form-error" class="form-text text-danger mb-3"></p>
+        <section class="d-flex flex-column gap-3">
+          <button class="btn btn-primary" type="submit" id="signup-code-btn">
+            Add Sign Up Code
+          </button>
+          <p class="m-0">
+            <a href="/admin/signup-codes">Back</a>
+          </p>
+        </section>
+      </section>
+    </form>
+  </main>
+  <%- include('../../partials/scripts.ejs') %>
+  <script src="/static/js/pages/admin/addSignupCode.js"></script>
+</body>
+
+
+</html>

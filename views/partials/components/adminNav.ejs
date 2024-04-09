@@ -1,0 +1,11 @@
+<ul class="nav nav-tabs px-2">
+  <li class="nav-item">
+    <a class="nav-link <%= locals.currentAdminPage === 'dashboard' ? 'active' : '' %>" href="/admin">Dashboard</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link <%= locals.currentAdminPage === 'users' ? 'active' : '' %>" href="/admin/users">Users</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link <%= locals.currentAdminPage === 'signup-codes' ? 'active' : '' %>" href="/admin/signup-codes">Sign Up Codes</a>
+  </li>
+</ul>

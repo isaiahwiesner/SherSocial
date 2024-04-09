@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../partials/head.ejs', {title: "Sign Up"}) %>
+</head>
+
+<body>
+  <%- include('../partials/components/nav.ejs', {currentPage: "signup"}) %>
+  <main class="container py-2 my-3">
+    <form id="signup-form" class="card m-auto" style="max-width: 30rem;">
+      <section class="card-body">
+        <legend class="mb-3">Sign Up</legend>
+        <section class="mb-3">
+          <label for="signupCode" class="mb-1">Sign Up Code</label>
+          <input type="text" class="form-control" id="signupCode" autocomplete="off" autocapitalize="off" aria-describedby="signupCodeHelper">
+          <small id="signupCodeHelper" class="form-text text-danger"></small>
+          <p class="form-text mb-2">This code will be used as your default password.</p>
+        </section>
+        <section class="mb-3">
+          <label for="username" class="mb-1">Username</label>
+          <input type="text" class="form-control" id="username" autocomplete="off" autocapitalize="off" aria-describedby="usernameHelper">
+          <small id="usernameHelper" class="form-text text-danger"></small>
+        </section>
+        <section class="mb-3">
+          <label for="firstName" class="mb-1">First Name</label>
+          <input type="text" class="form-control" id="firstName" autocomplete="off" autocapitalize="off" aria-describedby="firstNameHelper">
+          <small id="firstNameHelper" class="form-text text-danger"></small>
+        </section>
+        <section class="mb-3">
+          <label for="lastName" class="mb-1">Last Name</label>
+          <input type="text" class="form-control" id="lastName" autocomplete="off" autocapitalize="off" aria-describedby="lastNameHelper">
+          <small id="lastNameHelper" class="form-text text-danger"></small>
+        </section>
+        <p id="form-error" class="form-text text-danger mb-3"></p>
+        <section class="d-flex flex-column gap-3">
+          <button class="btn btn-primary" type="submit" id="signup-btn">
+            Sign Up
+          </button>
+          <section>
+            <p class="m-0">
+              <a href="/login">Already have an account? Log in</a>
+            </p>
+            <p class="m-0">
+              <a href="/">Back</a>
+            </p>
+          </section>
+        </section>
+      </section>
+    </form>
+  </main>
+  <script src="/static/js/pages/signup.js"></script>
+  <%- include('../partials/scripts.ejs') %>
+</body>
+
+
+</html>

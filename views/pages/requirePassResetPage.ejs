@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../partials/head.ejs', {title: "Password Change Required"}) %>
+</head>
+
+<body>
+  <main class="container py-2 mt-3">
+    <form id="password-form" class="card m-auto" style="max-width: 30rem;">
+      <section class="card-body">
+        <legend class="mb-3">Password Change Required</legend>
+        <section class="alert alert-info mb-3 d-flex align-items-center gap-3" role="alert">
+          <i class="fa-solid fa-circle-info"></i>
+          <section>You are seeing this page because you are using the default password.</section>
+        </section>
+        <section class="mb-3">
+          <label for="password" class="mb-1">Password</label>
+          <input type="password" id="password" class="form-control" autocomplete="off" autocapitalize="off" aria-describedby="passwordHelper">
+          <small id="passwordHelper" class="form-text text-danger"></small>
+        </section>
+        <section class="mb-3">
+          <label for="confirmPassword" class="mb-1">Confirm Password</label>
+          <input type="password" id="confirmPassword" class="form-control" autocomplete="off" autocapitalize="off" aria-describedby="confirmPasswordHelper">
+          <small id="confirmPasswordHelper" class="form-text text-danger"></small>
+        </section>
+        <p id="form-error" class="form-text text-danger mb-3"></p>
+        <section class="d-flex flex-column gap-3">
+          <button class="btn btn-primary" type="submit" id="password-btn">
+            Change Password
+          </button>
+          <button id="logout" class="btn btn-danger" type="button">Log Out</button>
+          <p class="form-text m-0">Note: Your default password is the code you used to sign up if you choose to log out.</p>
+        </section>
+      </section>
+    </form>
+  </main>
+  <script src="/static/js/pages/requirePassReset.js"></script>
+  <%- include('../partials/scripts.ejs') %>
+</body>
+
+
+</html>

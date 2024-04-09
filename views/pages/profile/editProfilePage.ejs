@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../../partials/head.ejs', {title: "Edit Profile"}) %>
+</head>
+
+<body>
+  <%- include('../../partials/components/nav.ejs', {currentPage: "edit-profile"}) %>
+  <main class="container py-2 my-3">
+    <section class="card m-auto mb-3" style="max-width: 30rem;">
+      <section class="card-body d-flex flex-column align-items-center gap-3">
+        <%- include('../../partials/components/avatar.ejs', {image: locals.auth.user.image, size: 180}) %>
+        <section class="d-flex flex-column align-items-center">
+          <a class="text-center <%= locals.auth.user.image ? 'text-danger' : 'disabled' %>" role="button" id="remove-image-btn">Remove Image</a>
+          <a href class="text-center" role="button" data-bs-toggle="modal" data-bs-target="#uploadImageModal">Upload Image</a>
+        </section>
+      </section>
+    </section>
+    <form id="edit-profile-form" class="card m-auto mb-3" style="max-width: 30rem;">
+      <section class="card-body">
+        <legend class="mb-3">Edit Profile</legend>
+        <section class="mb-3">
+          <label for="username" class="mb-1">Username</label>
+          <input type="text" class="form-control" id="username" value="<%- locals.auth.user.username %>" autocomplete="off" autocapitalize="off" aria-describedby="usernameHelper">
+          <small id="usernameHelper" class="form-text text-danger"></small>
+        </section>
+        <section class="mb-3">
+          <label for="firstName" class="mb-1">First Name</label>
+          <input type="text" class="form-control" id="firstName" value="<%- locals.auth.user.firstName %>" autocomplete="off" autocapitalize="off" aria-describedby="firstNameHelper">
+          <small id="firstNameHelper" class="form-text text-danger"></small>
+        </section>
+        <section class="mb-3">
+          <label for="lastName" class="mb-1">Last Name</label>
+          <input type="text" class="form-control" id="lastName" value="<%- locals.auth.user.lastName %>" autocomplete="off" autocapitalize="off" aria-describedby="lastNameHelper">
+          <small id="lastNameHelper" class="form-text text-danger"></small>
+        </section>
+        <p class="m-0" id="edit-form-error" class="form-text text-danger"></p>
+        <section class="d-flex flex-column gap-3">
+          <button class="btn btn-primary" type="submit" id="edit-profile-btn" disabled>
+            Save
+          </button>
+        </section>
+      </section>
+    </form>
+    <section class="w-100 m-auto" style="max-width: 30rem;">
+      <a href="/profile" class="btn btn-primary w-100">
+        <i class="fa-solid fa-eye"></i> View Profile
+      </a>
+    </section>
+  </main>
+
+  <!-- Upload Image Modal -->
+  <section class="modal fade" id="uploadImageModal" tabindex="-1" aria-labelledby="uploadImageModalLabel" aria-hidden="true">
+    <section class="modal-dialog">
+      <section class="modal-content">
+        <!-- Modal Header -->
+        <section class="modal-header">
+          <h1 class="modal-title fs-5" id="uploadImageModalLabel">Upload Image</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </section>
+        <!-- Modal Body -->
+        <section class="modal-body">
+          <form class="d-flex flex-column gap-3" id="upload-image-form">
+            <section class="d-flex flex-column gap-2">
+              <input type="file" accept="image/*" id="image-input" class="form-control">
+              <h5 class="text-center m-0">OR</h5>
+              <input type="text" id="image-link-input" class="form-control" autocomplete="off" value="https://">
+              <small id="upload-image-form-error" class="form-text text-danger"></small>
+            </section>
+            <button class="btn btn-primary" type="submit" id="upload-image-btn" disabled>Save</button>
+          </form>
+        </section>
+      </section>
+    </section>
+  </section>
+
+  <%- include('../../partials/scripts.ejs') %>
+  <script>
+    const user = JSON.parse('<%- JSON.stringify(locals.auth.user) %>');
+  </script>
+  <script src="/static/js/pages/profile/editProfile.js"></script>
+</body>
+
+
+</html>

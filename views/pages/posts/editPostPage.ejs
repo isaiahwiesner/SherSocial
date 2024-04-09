@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../../partials/head.ejs', {title: "Edit Post"}) %>
+</head>
+
+<body>
+  <%- include('../../partials/components/nav.ejs', {currentPage: "post"}) %>
+  <main class="container py-2 my-3">
+    <section class="card m-auto" style="max-width: 30rem;">
+      <section class="card-body">
+        <form id="post-form">
+          <legend class="mb-3">Edit Post</legend>
+          <section class="mb-3">
+            <label for="title" class="mb-1">Title</label>
+            <input type="text" id="title" class="form-control" autocomplete="off" aria-describedby="titleHelper" value="<%- locals.post ? locals.post.title : '' %>">
+            <small id="titleHelper" class="form-text text-danger"></small>
+          </section>
+          <section class="mb-3">
+            <label for="content" class="mb-1">Content</label>
+            <textarea id="content" rows="5" class="form-control" autocomplete="off" aria-describedby="contentHelper"><%- locals.post ? locals.post.content : '' %></textarea>
+            <small id="contentHelper" class="form-text text-danger"></small>
+            <p class="m-0"><a class="form-text text-decoration-none" href="/posts/b3be0d71-b3d5-40e3-a2b1-eaebddd32bec" target="_blank">This field supports custom markdown-like features <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
+          </section>
+          <section class="mb-3">
+            <label for="privacy" class="mb-1">Privacy</label>
+            <select id="privacy" class="form-control" aria-describedby="privacyHelper">
+              <option value="public" <%- locals.post && locals.post.privacy === 'public' ? 'selected' : '' %>>Public</option>
+              <option value="members" <%- locals.post && locals.post.privacy === 'members' ? 'selected' : '' %>>Members Only</option>
+              <option value="private" <%- locals.post && locals.post.privacy === 'private' ? 'selected' : '' %>>Private</option>
+            </select>
+            <small id="privacyHelper" class="form-text text-danger"></small>
+            <p class="m-0 form-text" id="privacyInfo"></p>
+          </section>
+          <p id="form-error" class="form-text text-danger mb-3"></p>
+          <section class="d-flex flex-column gap-3">
+            <button type="submit" class="btn btn-primary" id="save-post">
+              Save Post
+            </button>
+          </section>
+        </form>
+        <hr class="hr">
+        <legend class="mb-3">Add Post Images</legend>
+        <form class="d-flex flex-column gap-3 mb-3" id="image-form">
+          <section class="d-flex flex-column gap-2">
+            <input type="file" accept="image/*" id="image-input" class="form-control">
+            <h5 class="text-center m-0">OR</h5>
+            <input type="text" id="image-link-input" class="form-control" autocomplete="off" value="https://">
+            <small id="image-form-error" class="form-text text-danger"></small>
+          </section>
+          <button class="btn btn-primary" type="submit" id="save-image-btn" disabled>Add Image</button>
+        </form>
+        <% if (post.images.length > 0) { %>
+        <section class="d-flex gap-2 flex-wrap mb-3">
+          <% post.images.forEach(img => { %>
+          <section class="card overflow-hidden">
+            <img src="<%- img.image %>" alt="Post Image" class="object-fit-cover" style="min-width: 5rem; max-width: 10rem; height: 5rem;">
+            <hr class="hr m-0">
+            <button class="btn btn-danger py-0 rounded-0" data-image-path="<%- img.image %>">Remove</button>
+          </section>
+          <% }) %>
+        </section>
+        <% } %>
+        <hr class="hr">
+        <section class="d-flex flex-column mb-3">
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletePostModal">
+            Delete Post <i class="fa-solid fa-trash"></i>
+          </button>
+        </section>
+        <p class="m-0">
+          <a href="/posts/<%- locals.post.postId %>">Back</a>
+        </p>
+      </section>
+    </section>
+  </main>
+
+  <!-- Delete User Confirmation Modal -->
+  <section class="modal fade" id="deletePostModal" tabindex="-1" aria-labelledby="deletePostModalLabel" aria-hidden="true">
+    <section class="modal-dialog">
+      <section class="modal-content">
+        <!-- Modal Header -->
+        <section class="modal-header">
+          <h1 class="modal-title fs-5" id="deletePostModalLabel">Delete Post</h1>
+        </section>
+        <!-- Modal Body -->
+        <section class="modal-body">
+          <p>Are you sure you want to delete this post?</p>
+          <section class="d-flex flex-column gap-3">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="delete-post-confirm">Yes</button>
+          </section>
+        </section>
+      </section>
+    </section>
+  </section>
+
+  <%- include('../../partials/scripts.ejs') %>
+  <script>
+    const user = JSON.parse('<%- JSON.stringify(locals.auth.user) %>');
+    const post = JSON.parse('<%- locals.post ? JSON.stringify(locals.post).replace(/\\/g, "\\\\") : "null" %>');
+  </script>
+  <script src="/static/js/pages/posts/editPost.js"></script>
+</body>
+
+
+</html>

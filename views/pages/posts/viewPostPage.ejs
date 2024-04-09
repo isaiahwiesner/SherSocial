@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../../partials/head.ejs', {title: locals.post.title}) %>
+  <link rel="stylesheet" href="/static/css/posts.css">
+</head>
+
+<body>
+  <%- include('../../partials/components/nav.ejs', {currentPage: "view-post"}) %>
+  <main class="container py-2 my-3">
+    <section class="card w-100 m-auto" style="max-width: 50rem;">
+      <section class="card-header">
+        <h2 class="mb-2"><%- locals.post.title %></h2>
+        <a href="/@<%- locals.post.user.username %>" class="text-black text-decoration-none">
+          <section class="d-flex gap-3 mb-2">
+            <%- include('../../partials/components/avatar.ejs', {image: locals.post.user.image}) %>
+            <h5 class="m-0"><%- locals.post.user.fullName %> (@<%- locals.post.user.username %>)</h5>
+          </section>
+        </a>
+        <p class="m-0" class="text-secondary">
+          <%- locals.post.timeSince %> | <%- locals.post.privacy === "public"
+            ? 'Public <i class="fa-solid fa-globe"></i>' : locals.post.privacy === "members"
+                ? 'Members Only <i class="fa-solid fa-user"></i>'
+                : 'Private <i class="fa-solid fa-lock"></i>'%>
+        </p>
+      </section>
+      <section class="card-body font-normal">
+        <pre class="m-0"><%- locals.post.formattedContent %></pre>
+      </section>
+      <section class="card-footer d-flex justify-content-between align-items-center">
+        <% if (locals.isLiked) { %>
+        <button class="btn btn-transparent text-primary" id="unlike-btn" title="Unlike this post">
+          </i><%- locals.post.likes + ' like' + (locals.post.likes === 1 ? '' : 's') %> &nbsp;<i class="fa-solid fa-thumbs-up"></i>
+        </button>
+        <% } else { %>
+        <button class="btn btn-transparent text-secondary" id="like-btn" title="Like this post">
+          </i><%- locals.post.likes + ' like' + (locals.post.likes === 1 ? '' : 's') %> &nbsp;<i class="fa-regular fa-thumbs-up"></i>
+        </button>
+        <% } %>
+        <% if (locals.auth.user && locals.auth.user.userId === locals.post.createdBy) { %>
+        <a href="/posts/<%- post.postId %>/edit" class="btn btn-primary" tole="button"><i class="fa-solid fa-pen-to-square"></i> Edit Post</a>
+        <% } %>
+      </section>
+    </section>
+  </main>
+
+  <%- include('../../partials/scripts.ejs') %>
+  <script>
+    const user = JSON.parse('<%- locals.auth.user ? JSON.stringify(locals.auth.user) : "null" %>');
+    const generalizedPath = '<%- locals.generalizedPath %>';
+    const post = JSON.parse('<%- locals.post ? JSON.stringify(locals.post).replace(/\\/g, "\\\\").replace(/\'/g, "\\\'") : "null" %>');
+  </script>
+  <script src="/static/js/pages/posts/viewPost.js"></script>
+</body>
+
+
+</html>

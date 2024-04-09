@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../../partials/head.ejs', {title: "Add Post Images"}) %>
+</head>
+
+<body>
+  <%- include('../../partials/components/nav.ejs', {currentPage: "post"}) %>
+  <main class="container py-2 my-3">
+    <section class="card m-auto" style="max-width: 30rem;">
+      <section class="card-body">
+        <legend class="mb-3">Add Post Images</legend>
+        <form class="d-flex flex-column gap-3" id="image-form">
+          <section class="d-flex flex-column gap-2">
+            <input type="file" accept="image/*" id="image-input" class="form-control">
+            <h5 class="text-center m-0">OR</h5>
+            <input type="text" id="image-link-input" class="form-control" autocomplete="off" value="https://">
+            <small id="image-form-error" class="form-text text-danger"></small>
+          </section>
+          <button class="btn btn-primary" type="submit" id="save-image-btn" disabled>Add Image</button>
+        </form>
+        <p id="image-form-error" class="form-text text-danger mb-3"></p>
+        <% if (post.images.length > 0) { %>
+        <section class="d-flex gap-2 flex-wrap">
+          <% post.images.forEach(img => { %>
+          <section class="card overflow-hidden">
+            <img src="<%- img.image %>" alt="Post Image" class="object-fit-cover" style="min-width: 5rem; max-width: 10rem; height: 5rem;">
+            <hr class="hr m-0">
+            <button class="btn btn-danger py-0 rounded-0" data-image-path="<%- img.image %>">Remove</button>
+          </section>
+          <% }) %>
+        </section>
+        <% } %>
+        <hr class="hr">
+        <section class="d-flex flex-column gap-3">
+          <button type="submit" class="btn btn-info" id="post-btn">
+            Post &nbsp;<i class="fa-solid fa-check"></i>
+          </button>
+          <a role="button" class="btn btn-primary" href="/post" id="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> &nbsp;Back
+          </a>
+          <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <%- include('../../partials/scripts.ejs') %>
+  <script>
+    const user = JSON.parse('<%- JSON.stringify(locals.auth.user) %>');
+    const post = JSON.parse('<%- locals.post ? JSON.stringify(locals.post).replace(/\\/g, "\\\\") : "null" %>');
+  </script>
+  <script src="/static/js/pages/posts/postImages.js"></script>
+</body>
+
+
+</html>

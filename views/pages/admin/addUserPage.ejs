@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../../partials/head.ejs', {title: "Add User"}) %>
+</head>
+
+<body>
+  <%- include('../../partials/components/nav.ejs', {currentPage: "admin"}) %>
+  <main class="container py-2 my-3">
+    <form id="user-form" class="card m-auto" style="max-width: 30rem;">
+      <section class="card-body">
+        <legend class="mb-3">Add User</legend>
+        <section class="mb-3">
+          <label for="username" class="mb-1">Username</label>
+          <input type="text" id="username" class="form-control" autocomplete="off" autocapitalize="off" aria-describedby="usernameHelper">
+          <small id="usernameHelper" class="form-text text-danger"></small>
+        </section>
+        <section class="mb-3">
+          <label for="firstName" class="mb-1">First Name</label>
+          <input type="text" id="firstName" class="form-control" autocomplete="off" autocapitalize="off" aria-describedby="firstNameHelper">
+          <small id="firstNameHelper" class="form-text text-danger"></small>
+        </section>
+        <section class="mb-3">
+          <label for="lastName" class="mb-1">Last Name</label>
+          <input type="text" id="lastName" class="form-control" autocomplete="off" autocapitalize="off" aria-describedby="lastNameHelper">
+          <small id="lastNameHelper" class="form-text text-danger"></small>
+        </section>
+        <section class="mb-3">
+          <label for="password" class="mb-1">Password</label>
+          <input type="password" id="password" class="form-control" autocomplete="off" autocapitalize="off" aria-describedby="passwordHelper">
+          <small id="passwordHelper" class="form-text text-danger"></small>
+        </section>
+        <section class="mb-3">
+          <label for="confirmPassword" class="mb-1">Confirm Password</label>
+          <input type="password" id="confirmPassword" class="form-control" autocomplete="off" autocapitalize="off" aria-describedby="confirmPasswordHelper">
+          <small id="confirmPasswordHelper" class="form-text text-danger"></small>
+        </section>
+        <p id="form-error" class="form-text text-danger mb-3"></p>
+        <section class="d-flex flex-column gap-3">
+          <button class="btn btn-primary" type="submit" id="user-btn">
+            Add User
+          </button>
+          <p class="m-0">
+            <a href="/admin/users">Back</a>
+          </p>
+        </section>
+      </section>
+    </form>
+  </main>
+  <%- include('../../partials/scripts.ejs') %>
+  <script src="/static/js/pages/admin/addUser.js"></script>
+</body>
+
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../../partials/head.ejs', {title: "Sign Up Codes - Admin Dashboard"}) %>
+</head>
+
+<body>
+  <%- include('../../partials/components/nav.ejs', {currentPage: "admin"}) %>
+  <main class="container py-2">
+    <section class="card m-auto" style="max-width: 50rem;">
+      <%- include('../../partials/components/adminNav.ejs', {currentAdminPage: "signup-codes"}) %>
+      <section class="card-body container">
+        <section class="d-flex flex-column gap-3">
+          <form class="input-group" id="search-form">
+            <a class="btn btn-primary" href="/admin/signup-codes/add" role="button">Add Sign Up Code</a>
+            <input type="text" class="form-control" placeholder="Search by sign up code..." id="search-input" autocomplete="off">
+            <section class="dropdown">
+              <button type="button" class="btn btn-outline-primary rounded-0" id="search-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-bars"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li class="px-3 d-flex flex-row gap-2 align-items-center flex-nowrap">
+                  <label class="m-0 text-nowrap">Results Per Page:</label>
+                  <select class="form-control" style="width: 60px;" id="search-results-perpage">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                  </select>
+                </li>
+              </ul>
+            </section>
+            <button type="submit" class="btn btn-secondary" id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+          </form>
+          <section>
+            <table class="table table-striped mb-2">
+              <thead>
+                <tr>
+                  <th>Sign Up Code</th>
+                  <th>Expires At</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="search-results">
+              </tbody>
+              <tfoot id="search-footer"></tfoot>
+            </table>
+            <p class="m-0 text-center" id="perpage-text"></p>
+          </section>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <!-- Delete Sign Up Code Confirmation Modal -->
+  <section class="modal fade" id="deleteSignupCodeModal" tabindex="-1" aria-labelledby="deleteSignupCodeModalLabel" aria-hidden="true">
+    <section class="modal-dialog">
+      <section class="modal-content">
+        <!-- Modal Header -->
+        <section class="modal-header">
+          <h1 class="modal-title fs-5" id="deleteSignupCodeModalLabel">Delete <span id="delete-modal-signup-code"></span></h1>
+        </section>
+        <!-- Modal Body -->
+        <section class="modal-body">
+          <p>Are you sure you want to delete this sign up code?</p>
+          <section class="d-flex flex-column gap-3">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="cancel-delete-signup-code-confirm">No</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="delete-signup-code-confirm">Yes</button>
+          </section>
+        </section>
+      </section>
+    </section>
+  </section>
+
+  <%- include('../../partials/scripts.ejs') %>
+  <script src="/static/js/pages/admin/adminSignupCodes.js"></script>
+</body>
+
+
+</html>

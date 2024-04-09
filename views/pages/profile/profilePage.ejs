@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../../partials/head.ejs', {title: locals.auth.user && locals.auth.user.userId === locals.user.userId ? "Profile" : locals.user.fullName + " (@" + locals.user.username + ")"}) %>
+</head>
+
+<body>
+  <%- include('../../partials/components/nav.ejs', {currentPage: locals.auth.user && locals.auth.user.userId === locals.user.userId ? "profile" : "users"}) %>
+  <main class="container py-2 my-3">
+    <section class="card m-auto mb-3" style="max-width: 30rem;">
+      <section class="card-body d-flex flex-column align-items-center gap-3">
+        <%- include('../../partials/components/avatar.ejs', {image: locals.user.image, size: 180}) %>
+        <section class="d-flex flex-column w-100">
+          <h2 class="text-center text-truncate m-0">
+            <%- locals.user.fullName %>
+          </h2>
+          <h4 class="text-center text-truncate m-0 text-secondary">
+            @<%- locals.user.username %>
+          </h4>
+        </section>
+        <section class="d-flex w-100 justify-content-between">
+          <section class="d-flex flex-column align-items-center" style="width: 100px;">
+            <h4 class="m-0"><%- locals.user.followers %></h4>
+            <small class="text-secondary">followers</small>
+          </section>
+          <section class="d-flex flex-column align-items-center" style="width: 100px;">
+            <h4 class="m-0"><%- locals.user.posts %></h4>
+            <small class="text-secondary">posts</small>
+          </section>
+          <section class="d-flex flex-column align-items-center" style="width: 100px;">
+            <h4 class="m-0"><%- locals.user.likes %></h4>
+            <small class="text-secondary">likes</small>
+          </section>
+        </section>
+        <% if (locals.auth.user && locals.auth.user.userId === locals.user.userId) { %>
+        <a href="/profile/edit" class="btn btn-primary w-100">
+          <i class="fa-solid fa-pen-to-square"></i> Edit Profile
+        </a>
+        <% } else if (locals.isFollowing) { %>
+        <button id="unfollow" class="btn btn-outline-primary w-100">
+          Following <i class="fa-solid fa-check"></i>
+        </button>
+        <% } else { %>
+        <button id="follow" class="btn btn-primary w-100">
+          Follow <i class="fa-solid fa-user-plus"></i>
+        </button>
+        <% } %>
+      </section>
+    </section>
+    <section class="card m-auto" style="max-width: 30rem">
+      <section class="card-header">
+        <h3>Posts</h3>
+      </section>
+      <section class="card-body d-flex flex-column gap-3" id="posts"></section>
+    </section>
+  </main>
+  <%- include('../../partials/scripts.ejs') %>
+  <script>
+    const user = JSON.parse('<%- JSON.stringify(locals.user) %>');
+    const authUser = JSON.parse('<%- locals.auth.user ? JSON.stringify(locals.auth.user) : "null" %>');
+    const genPath = '<%- locals.generalizedPath %>';
+  </script>
+  <script src="/static/js/pages/profile/profile.js"></script>
+</body>
+
+
+</html>
