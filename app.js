@@ -8,6 +8,7 @@
 // Imports
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 const apiRouter = require("./routers/apiRouter"); // Custom module
 const pageRouter = require("./routers/pageRouter"); // Custom module
 const env = require("./utils/env"); // Custom module
@@ -19,7 +20,17 @@ const { getGeneralizedPath } = require("./utils/misc");
 
 // Initialize App
 const app = express();
-app.use(express.json()); // Use JSON body parser
+app.use((req, res, next) => {
+    bodyParser.json({ limit: "5mb" })(req, res, (err) => {
+        if (err) {
+            if (err.type === "entity.too.large") {
+                return res.status(413).json({ status: 413, ok: false, detail: "File too large.", ...err });
+            }
+            return res.status(400).json({ status: 400, ok: false, detail: err.message, ...err });
+        }
+        next();
+    });
+}); // Use JSON body parser with custom error handler
 app.use(cookieParser()); // Use cookie parser
 app.set("view engine", "ejs"); // Set view engine to ejs
 app.use("/shersocial/static", express.static("static")); // Use static file from directory "static" with "/static" as path root
