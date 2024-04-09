@@ -35,6 +35,7 @@ apiRouter.post(
     body("signupCode").custom(async (val) => (await getSignupCode(val)) && (await getSignupCode(val)).expiresAt < Date.now() && Promise.reject()).withMessage("Sign up code expired."),
     body("username").toLowerCase().exists().notEmpty().withMessage("Username is required."), // Require non-empty username field
     body("username").toLowerCase().custom(async (val,) => (await getUserByUsername(val)) && Promise.reject()).withMessage("Username already in use."), // Check to see if username is in use
+    body("username").toLowerCase().custom(val => !val || /^\w{3,24}$/.test(val)).withMessage("Invalid username."),
     body("firstName").exists().notEmpty().withMessage("First name is required."), // Require non-empty first name field
     body("lastName").exists().notEmpty().withMessage("Last name is required."), // Require non-empty last name field
     async (req, res) => {
