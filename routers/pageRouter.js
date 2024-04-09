@@ -352,7 +352,7 @@ pageRouter.get(
         });
     }
 );
-// Amin Users Page
+// Admin Users Page
 // /shersocial/admin/users
 pageRouter.get(
     "/admin/users",
@@ -378,7 +378,7 @@ pageRouter.get(
         });
     }
 );
-// Amin Sign Up Codes Page
+// Admin Sign Up Codes Page
 // /shersocial/admin/signup-codes
 pageRouter.get(
     "/admin/signup-codes",
@@ -404,10 +404,23 @@ pageRouter.get(
         });
     }
 );
+// Admin Posts Page
+// /shersocial/admin/posts
+pageRouter.get(
+    "/admin/posts",
+    requireAuth(), // Use requireAuth to prevent non-logged-in users
+    requireAdmin({ type: "page", title: "Access Denied", message: "You do not have access to this page." }), // Use requireAdmin to prevent non-admin users
+    (req, res) => {
+        return res.render("pages/admin/adminPostsPage", {
+            auth: { user: req.user }, // Assign auth.user to the user if there is one
+            generalizedPath: req.generalizedPath
+        });
+    }
+);
 
 // 404 Page
 // /shersocial/*
-pageRouter.get("/shersocial/*", (req, res) => {
+pageRouter.get("/*", (req, res) => {
     return res.render("pages/errorPage", {
         title: "Page Not Found",
         message: "The page you are looking for does not exist. Please check the URL and try again.",

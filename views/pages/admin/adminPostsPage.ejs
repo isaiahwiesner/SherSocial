@@ -4,31 +4,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <%- include('../../partials/head.ejs', {title: "Users - Admin Dashboard"}) %>
+  <%- include('../../partials/head.ejs', {title: "Posts - Admin Dashboard"}) %>
 </head>
 
 <body>
   <%- include('../../partials/components/nav.ejs', {currentPage: "admin"}) %>
   <main class="container py-2">
     <section class="card m-auto" style="max-width: 50rem;">
-      <%- include('../../partials/components/adminNav.ejs', {currentAdminPage: "users"}) %>
+      <%- include('../../partials/components/adminNav.ejs', {currentAdminPage: "posts"}) %>
       <section class="card-body container">
         <section class="d-flex flex-column gap-3">
           <form class="input-group" id="search-form">
-            <a class="btn btn-primary" href="/shersocial/admin/users/add" role="button">Add</a>
-            <input type="text" class="form-control" placeholder="Search by name, username, or user ID..." id="search-input" autocomplete="off">
+            <input type="text" class="form-control" placeholder="Search by title, name, username, post ID, or user ID..." id="search-input" autocomplete="off">
             <section class="dropdown">
               <button type="button" class="btn btn-outline-primary rounded-0" id="search-btn" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-bars"></i>
               </button>
               <ul class="dropdown-menu">
-                <li class="px-3 d-flex flex-row gap-2 align-items-center flex-nowrap">
+                <li class="px-3 d-flex flex-row gap-2 align-items-center flex-nowrap mb-2">
                   <label class="m-0 text-nowrap" for="search-results-perpage">Results Per Page:</label>
                   <select class="form-control" style="width: 60px;" id="search-results-perpage">
                     <option value="5">5</option>
                     <option value="10" selected>10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
+                  </select>
+                </li>
+                <li class="px-3 d-flex flex-row gap-2 align-items-center flex-nowrap">
+                  <label class="m-0 text-nowrap" for="search-results-orderby">Order By:</label>
+                  <select class="form-control" style="width: 100px;" id="search-results-orderby">
+                    <option value="createdAt DESC" selected>Newest</option>
+                    <option value="createdAt">Oldest</option>
+                    <option value="userUsername, createdAt DESC">User's Username</option>
+                    <option value="userUsername DESC, createdAt DESC">User's Username (Reverse)</option>
                   </select>
                 </li>
               </ul>
@@ -39,8 +47,9 @@
             <table class="table table-striped mb-2">
               <thead>
                 <tr>
-                  <th>Username</th>
-                  <th>Name</th>
+                  <th>Title</th>
+                  <th>User</th>
+                  <th>Posted</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -55,20 +64,20 @@
     </section>
   </main>
 
-  <!-- Delete User Confirmation Modal -->
-  <section class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+  <!-- Delete Post Confirmation Modal -->
+  <section class="modal fade" id="deletePostModal" tabindex="-1" aria-labelledby="deletePostModalLabel" aria-hidden="true">
     <section class="modal-dialog">
       <section class="modal-content">
         <!-- Modal Header -->
         <section class="modal-header">
-          <h1 class="modal-title fs-5" id="deleteUserModalLabel">Delete <span id="delete-modal-username"></span></h1>
+          <h1 class="modal-title fs-5" id="deletePostModalLabel">Delete <span id="delete-modal-title"></span></h1>
         </section>
         <!-- Modal Body -->
         <section class="modal-body">
-          <p>Are you sure you want to delete this user?</p>
+          <p>Are you sure you want to delete this post?</p>
           <section class="d-flex flex-column gap-3">
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="cancel-delete-user-confirm">No</button>
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="delete-user-confirm">Yes</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="cancel-delete-post-confirm">No</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="delete-post-confirm">Yes</button>
           </section>
         </section>
       </section>
@@ -76,7 +85,7 @@
   </section>
 
   <%- include('../../partials/scripts.ejs') %>
-  <script src="/shersocial/static/js/pages/admin/adminUsers.js"></script>
+  <script src="/shersocial/static/js/pages/admin/adminPosts.js"></script>
 </body>
 
 

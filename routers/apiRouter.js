@@ -955,6 +955,78 @@ apiRouter.delete(
         }
     }
 );
+// Add User Admin
+// /shersocial/api/admin/add-admin
+apiRouter.put(
+    "/admin/add-admin",
+    requireAuth({ type: "json", message: "This route requires authentication." }), // Require logged-in user
+    requireAdmin({ type: "json", title: "Access Denied", message: "You do not have access to this route." }), // Require admin user
+    async (req, res) => {
+        const userId = req.query.userId;
+        if (!userId) {
+            return res.status(400).json({ status: 400, ok: false, detail: "User ID must be provided in query parameters." });
+        }
+        const user = await getUser(userId)
+        if (!user) {
+            return res.status(404).json({ status: 404, ok: false, detail: "User not found." });
+        }
+        else if (user.admin === 1) {
+            return res.status(400).json({ status: 400, ok: false, detail: "This user is already an admin." });
+        }
+        else {
+            try {
+                con.query(`UPDATE users
+                SET admin = 1,
+                updatedAt = ${Date.now()}
+                WHERE (userId = '${userId}')`, (err) => {
+                    if (err) throw err;
+                    return res.status(200).json({ status: 200, ok: true, detail: "User assigned admin role!" });
+                });
+            }
+            catch (e) {
+                return res.status(500).json({ status: 500, ok: false, detail: "Unable to assign user to admin role." });
+            }
+        }
+    }
+)
+// Remove User Admin
+// /shersocial/api/admin/remove-admin
+apiRouter.put(
+    "/admin/remove-admin",
+    requireAuth({ type: "json", message: "This route requires authentication." }), // Require logged-in user
+    requireAdmin({ type: "json", title: "Access Denied", message: "You do not have access to this route." }), // Require admin user
+    async (req, res) => {
+        const userId = req.query.userId;
+        if (!userId) {
+            return res.status(400).json({ status: 400, ok: false, detail: "User ID must be provided in query parameters." });
+        }
+        const user = await getUserById(userId)
+        if (!user) {
+            return res.status(404).json({ status: 404, ok: false, detail: "User not found." });
+        }
+        else if (userId === req.user.userId) {
+            return res.status(400).json({ status: 400, ok: false, detail: "You cannot unassign yourself!" });
+        }
+        else if (user.admin === 0) {
+            return res.status(400).json({ status: 400, ok: false, detail: "This user is not currently an admin." });
+        }
+        else {
+            try {
+                con.query(`UPDATE users
+                SET admin = 0,
+                updatedAt = ${Date.now()}
+                WHERE (userId = '${userId}')`, (err) => {
+                    if (err) throw err;
+                    return res.status(200).json({ status: 200, ok: true, detail: "User removed from admin role!" });
+                });
+            }
+            catch (e) {
+                return res.status(500).json({ status: 500, ok: false, detail: "Unable to remove assign user from admin role." });
+            }
+        }
+
+    }
+)
 
 // Add Signup Code
 // /shersocial/api/admin/add-signup-code
@@ -1049,6 +1121,71 @@ apiRouter.delete(
                     .json({ status: 500, ok: false, detil: "Unable to delete sign up code.", stack: e.stack });
 
             }
+        }
+    }
+);
+
+// Get Posts
+// /shersocial/api/admin/posts
+apiRouter.get(
+    "/admin/posts",
+    requireAuth({ type: "json", message: "This route requires authentication." }), // Require logged-in user
+    requireAdmin({ type: "json", title: "Access Denied", message: "You do not have access to this route." }), // Require admin user
+    async (req, res) => {
+        try {
+            const query = req.query.q || null;
+            const perPage = req.query.resultsPerPage || 10;
+            const page = (req.query.page || 1) < 1 ? 1 : (req.query.page || 1);
+            const orderBy = req.query.orderBy || "title";
+            con.query(`SELECT COUNT(*) AS count
+            FROM posts
+            LEFT JOIN users ON posts.createdBy = users.userId
+            ${query ? `WHERE (
+                LOWER(posts.title) LIKE '%${query.toLowerCase()}%'
+                OR LOWER(users.firstName) LIKE '%${query.toLowerCase()}%'
+                OR LOWER(users.lastName) LIKE '%${query.toLowerCase()}%'
+                OR CONCAT(LOWER(users.firstName), ' ', LOWER(users.lastName)) LIKE '%${query.toLowerCase()}%'
+                OR posts.postId = '${query}'
+                OR users.userId = '${query}'
+            )` : ''}`, (err, postCount) => {
+                if (err) throw err;
+                con.query(`SELECT posts.postId, posts.title, posts.createdAt, posts.updatedAt,
+                (SELECT COUNT(*) FROM post_likes WHERE post_likes.postId = posts.postId) as likes,
+                users.username as userUsername, CONCAT(users.firstName, ' ', users.lastName) as userFullName,
+                users.image as userImage
+                FROM posts
+                LEFT JOIN users ON posts.createdBy = users.userId
+                ${query ? `WHERE (
+                    LOWER(posts.title) LIKE '%${query.toLowerCase()}%'
+                    OR LOWER(users.firstName) LIKE '%${query.toLowerCase()}%'
+                    OR LOWER(users.lastName) LIKE '%${query.toLowerCase()}%'
+                    OR CONCAT(LOWER(users.firstName), ' ', LOWER(users.lastName)) LIKE '%${query.toLowerCase()}%'
+                    OR posts.postId = '${query}'
+                    OR users.userId = '${query}'
+                )` : ''}
+                ORDER BY ${orderBy}
+                LIMIT ${perPage}
+                ${page > 1 ? ` OFFSET ${((page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) - 1) * perPage}` : ''}`, (err, rows) => {
+                    if (err) throw err;
+                    return res.status(200).json({
+                        status: 200, ok: true, detail: "Posts searched!",
+                        posts: rows.map(p => {
+                            return {
+                                ...p,
+                                timeSince: getTimeSince(p.createdAt),
+                                timeSinceUpdate: getTimeSince(p.updatedAt)
+                            };
+                        }),
+                        page: parseInt((page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) > 0 ? (page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) : 1),
+                        resultsPerPage: parseInt(perPage),
+                        pages: Math.ceil(postCount[0].count / perPage),
+                        orderBy
+                    });
+                });
+            });
+        }
+        catch (e) {
+            return res.status(500).json({ status: 500, ok: false, detail: "Unable to search posts.", stack: e.stack });
         }
     }
 );

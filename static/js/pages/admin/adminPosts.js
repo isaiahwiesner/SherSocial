@@ -1,14 +1,15 @@
 const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("search-input");
 const searchResultsPerPage = document.getElementById("search-results-perpage");
+const searchResultsOrderBy = document.getElementById("search-results-orderby");
 const searchBtn = document.getElementById("search-btn");
 const searchResults = document.getElementById("search-results");
 const searchFooter = document.getElementById("search-footer")
-const deleteUserBtn = document.getElementById("delete-user-confirm");
-const cancelDeleteUserBtn = document.getElementById("cancel-delete-user-confirm");
-var currentUsers = [];
+const deletePostBtn = document.getElementById("delete-post-confirm");
+const cancelDeletePostBtn = document.getElementById("cancel-delete-post-confirm");
+var currentPosts = [];
 var currentResults = {};
-var currentDeleteUser = null;
+var currentDeletePost = null;
 var queryParams = {};
 const handleSearch = async (e) => {
     if (e) {
@@ -17,23 +18,24 @@ const handleSearch = async (e) => {
     }
     queryParams.q = searchInput.value === "" ? null : searchInput.value;
     queryParams.resultsPerPage = parseInt(searchResultsPerPage.value);
+    queryParams.orderBy = searchResultsOrderBy.value;
     if (!queryParams.q) delete queryParams.q;
-    renderCurrentUsers();
+    renderCurrentPosts();
 };
 const clearSearch = async (e) => {
     searchInput.value = "";
     delete queryParams.q;
     queryParams.page = 1;
-    renderCurrentUsers();
+    renderCurrentPosts();
 };
 const changePage = (page) => {
     return () => {
         queryParams.page = page;
-        renderCurrentUsers();
+        renderCurrentPosts();
     };
 };
-const renderCurrentUsers = async () => {
-    var url = `/shersocial/api/admin/users?`;
+const renderCurrentPosts = async () => {
+    var url = `/shersocial/api/admin/posts?`;
     if (!queryParams.q) delete queryParams.q;
     url += Object.keys(queryParams).map(k => `${k}=${encodeURIComponent(queryParams[k])}`).join("&");
     if (history.pushState) {
@@ -44,63 +46,51 @@ const renderCurrentUsers = async () => {
     }
     const res = await fetch(url);
     const data = await res.json();
-    if (data.users) {
-        currentUsers = data.users;
+    if (data.posts) {
+        currentPosts = data.posts;
         currentResults = {
             page: data.page,
             resultsPerPage: data.resultsPerPage,
-            pages: data.pages
+            pages: data.pages,
+            orderBy: data.orderBy
         }
     } else {
-        currentUsers = [];
+        currentPosts = [];
         currentResults = {
             resultsPerPage: queryParams.resultsPerPage,
             page: 1
         };
     }
     var innerHTML = "";
-    currentUsers.forEach(u => {
+    currentPosts.forEach(p => {
         innerHTML += `<tr>
-          <td class="align-middle">${u.username}</td>
-          <td class="align-middle">${u.firstName} ${u.lastName}</td>
+          <td class="align-middle">${p.title}</td>
+          <td class="align-middle"><a href="/shersocial/@${p.userUsername}" target="_blank">${p.userFullName} (@${p.userUsername}) &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i></a></td>
+          <td class="align-middle">${p.timeSince}</td>
           <td class="align-middle">
-          ${u.admin === 1
-                ? `<button title="Unassign admin" role="button" class="btn btn-secondary" data-userid="${u.userId}">
-                    <i class="fa-solid fa-user-slash"></i>
-                </button>`
-                : `<button title="Assign admin" role="button" class="btn btn-primary" data-userid="${u.userId}">
-                    <i class="fa-solid fa-user-shield"></i>
-                </button>`
-            }
-            <a title="View user" role="button" class="btn btn-info" href="/shersocial/@${u.username}" target="_blank">
+            <button title="Delete post" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletePostModal" data-postid="${p.postId}">
+              <i class="fa-solid fa-trash" data-postid="${p.postId}"></i>
+            </button>
+            <a title="View post" role="button" class="btn btn-info" href="/shersocial/posts/${p.postId}" target="_blank">
                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </a>
-            <button title="Delete user" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserModal" data-userid="${u.userId}">
-              <i class="fa-solid fa-trash" data-userid="${u.userId}"></i>
             </button>
           </td>
         </tr>`;
     });
     searchResults.innerHTML = innerHTML;
-    [...searchResults.querySelectorAll(`button.btn-danger[data-userid]`)].forEach(btn => {
+    [...searchResults.querySelectorAll(`button[data-postid]`)].forEach(btn => {
         btn.addEventListener("click", handleDeleteOpen);
-    });
-    [...searchResults.querySelectorAll(`button.btn-primary[data-userid]`)].forEach(btn => {
-        btn.addEventListener("click", handleAssignAdmin);
-    });
-    [...searchResults.querySelectorAll(`button.btn-secondary[data-userid]`)].forEach(btn => {
-        btn.addEventListener("click", handleUnassignAdmin);
     });
     var footerHTML = "";
     if (queryParams.q) {
         footerHTML += `<tr>
-          <td colspan="3" class="text-center">
+          <td colspan="4" class="text-center">
             <a href id="clear-search" role="button">Clear Search</a>
           </td>
         </tr>`;
     }
     footerHTML += `<tr>
-        <td colspan="3">
+        <td colspan="4">
           <section class="d-flex w-100 justify-content-center">
             <a data-page="${(+currentResults.page - +1)}" role="button" class="me-3 ${currentResults.page > 1 ? '' : 'disabled'}">Previous</a>
             Page ${currentResults.page} of ${currentResults.pages}
@@ -118,45 +108,28 @@ const renderCurrentUsers = async () => {
     document.getElementById("perpage-text").innerText = `${currentResults.resultsPerPage} results per page`;
 };
 const handleDeleteOpen = (e) => {
-    const userId = e.target.getAttribute("data-userid");
-    currentDeleteUser = currentUsers.filter(u => u.userId === userId)[0];
-    document.getElementById("delete-modal-username").innerText = currentDeleteUser.username;
+    const postId = e.target.getAttribute("data-postid");
+    currentDeletePost = currentPosts.filter(u => u.postId === postId)[0];
+    document.getElementById("delete-modal-title").innerText = currentDeletePost.title;
 };
-const handleDeleteUser = async () => {
-    const res = await fetch(`/shersocial/api/admin/delete-user?userId=${currentDeleteUser.userId}`, {
+const handleDeletePost = async () => {
+    const res = await fetch(`/shersocial/api/posts/delete?postId=${currentDeletePost.postId}`, {
         method: "DELETE"
     });
     if (res.ok) {
-        currentDeleteUser = null;
-        renderCurrentUsers();
+        currentDeletePost = null;
+        renderCurrentPosts();
     }
 };
-const handleCancelDeleteUser = () => {
-    currentDeleteUser = null;
-};
-const handleAssignAdmin = async (e) => {
-    const userId = e.target.getAttribute("data-userid");
-    const res = await fetch(`/shersocial/api/admin/add-admin?userId=${userId}`, {
-        method: "PUT"
-    });
-    if (res.ok) {
-        renderCurrentUsers();
-    }
-};
-const handleUnassignAdmin = async (e) => {
-    const userId = e.target.getAttribute("data-userid");
-    const res = await fetch(`/shersocial/api/admin/remove-admin?userId=${userId}`, {
-        method: "PUT"
-    });
-    if (res.ok) {
-        renderCurrentUsers();
-    }
+const handleCancelDeletePost = () => {
+    currentDeletePost = null;
 };
 document.addEventListener("DOMContentLoaded", () => {
     queryParams = {
         q: window.location.search.match(/[\?&]q=([^&]*)/) ? window.location.search.match(/[\?&]q=([^&]*)/)[1] : null,
         page: window.location.search.match(/[\?&]page=([^&]*)/) ? parseInt(window.location.search.match(/[\?&]page=([^&]*)/)[1]) : 1,
-        resultsPerPage: window.location.search.match(/[\?&]resultsPerPage=([^&]*)/) ? parseInt(window.location.search.match(/[\?&]resultsPerPage=([^&]*)/)[1]) : 10
+        resultsPerPage: window.location.search.match(/[\?&]resultsPerPage=([^&]*)/) ? parseInt(window.location.search.match(/[\?&]resultsPerPage=([^&]*)/)[1]) : 10,
+        orderBy: "createdAt DESC"
     };
     var perPageHTML = "";
     perPageHTML += `
@@ -168,9 +141,17 @@ document.addEventListener("DOMContentLoaded", () => {
         perPageHTML += `<option value="${queryParams.resultsPerPage}" selected>${queryParams.resultsPerPage}</option>`
     }
     searchResultsPerPage.innerHTML = perPageHTML;
+    var orderByHTML = "";
+    orderByHTML += `
+      <option value="createdAt DESC" ${queryParams.orderBy ==="createdAt DESC" ? 'selected' : ''}>Newest</option>
+      <option value="createdAt" ${queryParams.orderBy === "createdAt" ? 'selected' : ''}>Oldest</option>
+      <option value="userUsername, createdAt DESC" ${queryParams.orderBy === "userUsername, createdAt DESC" ? 'selected' : ''}>User's Username</option>
+      <option value="userUsername DESC, createdAt DESC" ${queryParams.orderBy === "userUsername DESC, createdAt DESC" ? 'selected' : ''}>User's Username (Reverse)</option>`;
+    searchResultsOrderBy.innerHTML = orderByHTML;
     searchForm.addEventListener("submit", handleSearch);
     searchResultsPerPage.addEventListener("change", () => handleSearch());
-    deleteUserBtn.addEventListener("click", handleDeleteUser);
-    cancelDeleteUserBtn.addEventListener("click", handleCancelDeleteUser);
-    renderCurrentUsers();
+    searchResultsOrderBy.addEventListener("change", () => handleSearch());
+    deletePostBtn.addEventListener("click", handleDeletePost);
+    cancelDeletePostBtn.addEventListener("click", handleCancelDeletePost);
+    renderCurrentPosts();
 });
