@@ -33,7 +33,7 @@ const changePage = (page) => {
     };
 };
 const renderCurrentUsers = async () => {
-    var url = `/api/admin/users?`;
+    var url = `/shersocial/api/admin/users?`;
     if (!queryParams.q) delete queryParams.q;
     url += Object.keys(queryParams).map(k => `${k}=${encodeURIComponent(queryParams[k])}`).join("&");
     if (history.pushState) {
@@ -67,7 +67,7 @@ const renderCurrentUsers = async () => {
             <button title="Delete user" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserModal" data-userid="${u.userId}">
               <i class="fa-solid fa-trash" data-userid="${u.userId}"></i>
             </button>
-            <a title="View user" role="button" class="btn btn-info" href="/@${u.username}" target="_blank">
+            <a title="View user" role="button" class="btn btn-info" href="/shersocial/@${u.username}" target="_blank">
                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </button>
           </td>
@@ -109,7 +109,7 @@ const handleDeleteOpen = (e) => {
     document.getElementById("delete-modal-username").innerText = currentDeleteUser.username;
 };
 const handleDeleteUser = async () => {
-    const res = await fetch(`/api/admin/delete-user?userId=${currentDeleteUser.userId}`, {
+    const res = await fetch(`/shersocial/api/admin/delete-user?userId=${currentDeleteUser.userId}`, {
         method: "DELETE"
     });
     if (res.ok) {

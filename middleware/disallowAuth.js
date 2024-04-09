@@ -10,11 +10,11 @@ const disallowAuth = (options = {
             }
             else { // Page route, return redirect to login page with
                 if (req.query.redirect) { // Has a redirect query param
-                    return res.redirect("/" // Start with "/"
+                    return res.redirect("/shersocial/" // Start with "/shersocial"
                         + decodeURIComponent(req.query.redirect)); // Get decoded query param 
                 }
                 else { // No redirect query param
-                    return res.redirect("/"); // Redirect to "/"
+                    return res.redirect("/shersocial"); // Redirect to "/shersocial"
                 }
             }
         }

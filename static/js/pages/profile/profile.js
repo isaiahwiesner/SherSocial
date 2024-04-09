@@ -5,7 +5,7 @@ const unfollowBtn = document.getElementById("unfollow");
 var resultData = {};
 
 const fetchPosts = async (page) => {
-    const res = await fetch(`/api/users/posts?userId=${user.userId}&page=${page}`);
+    const res = await fetch(`/shersocial/api/users/posts?userId=${user.userId}&page=${page}`);
     if (res.ok) {
         const data = await res.json();
         resultData.page = data.page;
@@ -25,7 +25,7 @@ const appendPosts = (posts) => {
         var postsInnerHTML = "";
         posts.forEach(p => {
             if (p.image) {
-                postsInnerHTML += `<a href="/posts/${p.postId}" role="button" class="card text-decoration-none overflow-hidden">
+                postsInnerHTML += `<a href="/shersocial/posts/${p.postId}" role="button" class="card text-decoration-none overflow-hidden">
                     <img src="${p.image}" alt="${p.title}" class="object-fit-cover" style="height: 12rem;">
                     <hr class="hr m-0">
                     <section class="card-body">
@@ -41,7 +41,7 @@ const appendPosts = (posts) => {
                 </a>`;
             }
             else {
-                postsInnerHTML += `<a href="/posts/${p.postId}" role="button" class="card text-decoration-none overflow-hidden">
+                postsInnerHTML += `<a href="/shersocial/posts/${p.postId}" role="button" class="card text-decoration-none overflow-hidden">
                     <section class="card-body">
                         <h4 class="m-0">${p.title}</h4>
                         <p class="m-0 text-secondary">Posted ${new Date(p.createdAt).toLocaleString()}</p>
@@ -65,11 +65,11 @@ const appendPosts = (posts) => {
 
 const handleFollow = async () => {
     if (!authUser) {
-        window.location = `/login?redirect=${encodeURIComponent(genPath.slice(1))}`;
+        window.location = `/shersocial/login?redirect=${encodeURIComponent(genPath.slice(1))}`;
     }
     else {
         followBtn.setAttribute("loading", "true");
-        const res = await fetch(`/api/users/follow?userId=${user.userId}`, {
+        const res = await fetch(`/shersocial/api/users/follow?userId=${user.userId}`, {
             method: "POST"
         });
         if (res.ok) {
@@ -83,7 +83,7 @@ const handleFollow = async () => {
 
 const handleUnfollow = async () => {
     unfollowBtn.setAttribute("loading", "true");
-    const res = await fetch(`/api/users/unfollow?userId=${user.userId}`, {
+    const res = await fetch(`/shersocial/api/users/unfollow?userId=${user.userId}`, {
         method: "POST"
     });
     if (res.ok) {

@@ -23,7 +23,7 @@ const pageRouter = Router();
 
 
 // Home Page
-// /
+// /shersocial
 pageRouter.get("/", (req, res) => {
     if (req.user && req.user.passResetRequired === 1) return res.render("pages/requirePassResetPage", {
         auth: { user: req.user }, // Assign auth.user to the user if there is one
@@ -36,7 +36,7 @@ pageRouter.get("/", (req, res) => {
 });
 
 // Profile Page
-// /profile
+// /shersocial/profile
 pageRouter.get("/profile",
     requireAuth(), // Use requireAuth to prevent non-logged-in users
     async (req, res) => {
@@ -65,7 +65,7 @@ pageRouter.get("/profile",
     }
 );
 // Edit Profile Page
-// /profile/edit
+// /shersocial/profile/edit
 pageRouter.get("/profile/edit",
     requireAuth(), // Use requireAuth to prevent non-logged-in users
     (req, res) => {
@@ -77,7 +77,7 @@ pageRouter.get("/profile/edit",
 );
 
 // Sign Up Page
-// /login
+// /shersocial/login
 pageRouter.get(
     "/signup",
     disallowAuth(), // Use disallowAuth to prevent logged-in users from using signup
@@ -89,7 +89,7 @@ pageRouter.get(
     }
 );
 // Login Page
-// /login
+// /shersocial/login
 pageRouter.get(
     "/login",
     disallowAuth(), // Use disallowAuth to prevent logged-in users from using login
@@ -102,7 +102,7 @@ pageRouter.get(
 );
 
 // Other Profile Page
-// /@username
+// /shersocial/@username
 pageRouter.get(
     "/@:username",
     requireAuth(),
@@ -185,7 +185,7 @@ pageRouter.get(
     }
 );
 // Add Post page
-// /post
+// /shersocial/post
 pageRouter.get(
     "/post",
     requireAuth(),
@@ -230,7 +230,7 @@ pageRouter.get(
     }
 );
 // View Post Page
-// /posts/:postId
+// /shersocial/posts/:postId
 pageRouter.get(
     "/posts/:postId",
     async (req, res) => {
@@ -244,7 +244,7 @@ pageRouter.get(
             });
         }
         else if (post.privacy === "members" && !req.user) {
-            return res.redirect(`/login?redirect=${encodeURIComponent(req.generalizedPath.slice(1))}`);
+            return res.redirect(`/shersocial/login?redirect=${encodeURIComponent(req.generalizedPath.slice(1))}`);
         }
         else if (post.privacy === "private" && (!req.user || req.user.admin === 0 || req.user.userId !== post.createdBy)) {
             return res.render("pages/errorPage", {
@@ -297,7 +297,7 @@ pageRouter.get(
     }
 );
 // Edit Post Page
-// /posts/:postId/edit
+// /shersocial/posts/:postId/edit
 pageRouter.get(
     "/posts/:postId/edit",
     requireAuth(),
@@ -340,7 +340,7 @@ pageRouter.get(
 );
 
 // Admin Dashboard
-// /admin/add-user
+// /shersocial/admin/add-user
 pageRouter.get(
     "/admin",
     requireAuth(), // Use requireAuth to prevent non-logged-in users
@@ -353,7 +353,7 @@ pageRouter.get(
     }
 );
 // Amin Users Page
-// /admin/users
+// /shersocial/admin/users
 pageRouter.get(
     "/admin/users",
     requireAuth(), // Use requireAuth to prevent non-logged-in users
@@ -366,7 +366,7 @@ pageRouter.get(
     }
 );
 // Add User Page
-// /admin/users/add
+// /shersocial/admin/users/add
 pageRouter.get(
     "/admin/users/add",
     requireAuth(), // Use requireAuth to prevent non-logged-in users
@@ -379,7 +379,7 @@ pageRouter.get(
     }
 );
 // Amin Sign Up Codes Page
-// /admin/signup-codes
+// /shersocial/admin/signup-codes
 pageRouter.get(
     "/admin/signup-codes",
     requireAuth(), // Use requireAuth to prevent non-logged-in users
@@ -392,7 +392,7 @@ pageRouter.get(
     }
 );
 // Add Sign Up Code Page
-// /admin/signup-codes/add
+// /shersocial/admin/signup-codes/add
 pageRouter.get(
     "/admin/signup-codes/add",
     requireAuth(), // Use requireAuth to prevent non-logged-in users
@@ -406,8 +406,8 @@ pageRouter.get(
 );
 
 // 404 Page
-// /*
-pageRouter.get("/*", (req, res) => {
+// /shersocial/*
+pageRouter.get("/shersocial/*", (req, res) => {
     return res.render("pages/errorPage", {
         title: "Page Not Found",
         message: "The page you are looking for does not exist. Please check the URL and try again.",

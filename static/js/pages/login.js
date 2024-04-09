@@ -52,7 +52,7 @@ const handleSubmit = async (e) => {
         username: fields.username.value,
         password: fields.password.value
     };
-    const res = await fetch("/api/login", {
+    const res = await fetch("/shersocial/api/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

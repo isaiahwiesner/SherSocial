@@ -53,7 +53,7 @@ const handleSubmit = async (e) => {
         password: fields.password.value,
         confirmPassword: fields.confirmPassword.value
     };
-    const res = await fetch("/api/update-password", {
+    const res = await fetch("/shersocial/api/update-password", {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
@@ -79,7 +79,7 @@ const handleSubmit = async (e) => {
 };
 
 const handleLogout = async () => {
-    const res = await fetch("/api/logout", {
+    const res = await fetch("/shersocial/api/logout", {
         method: "POST"
     });
     if (res.ok) {

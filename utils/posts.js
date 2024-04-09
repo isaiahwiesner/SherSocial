@@ -135,7 +135,7 @@ const uploadPostImage = (postId, dataUri, fileType) => {
         const buffer = Buffer.from(base64Data, "base64");
         const newFilePath = `usercontent/post-images/${postId}/${Date.now()}.${fileType}`;
         fs.writeFileSync(newFilePath, buffer);
-        resolve(`/${newFilePath}`);
+        resolve(`/shersocial/${newFilePath}`);
     });
 };
 

@@ -95,7 +95,7 @@ const handleSaveImage = async (e) => {
         image: file ? await convertDataUri(file) : fields.imageLink.value,
         fileType: file ? file.name.split(".").slice(-1) : null
     };
-    const res = await fetch(`/api/posts/add-image?postId=${post.postId}`, {
+    const res = await fetch(`/shersocial/api/posts/add-image?postId=${post.postId}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -122,7 +122,7 @@ const handleSaveImage = async (e) => {
 const handleRemoveImage = async (e) => {
     const imagePath = e.target.getAttribute("data-image-path");
     setLoading(true);
-    const res = await fetch(`/api/posts/remove-image?postId=${post.postId}&imagePath=${encodeURIComponent(imagePath)}`, {
+    const res = await fetch(`/shersocial/api/posts/remove-image?postId=${post.postId}&imagePath=${encodeURIComponent(imagePath)}`, {
         method: "DELETE"
     });
     if (res.ok) {
@@ -144,11 +144,11 @@ const handleRemoveImage = async (e) => {
 
 const handlePublish = async () => {
     setLoading(true);
-    const res = await fetch(`/api/posts/publish?postId=${post.postId}`, {
+    const res = await fetch(`/shersocial/api/posts/publish?postId=${post.postId}`, {
         method: "POST"
     });
     if (res.ok) {
-        window.location = `/posts/${post.postId}`;
+        window.location = `/shersocial/posts/${post.postId}`;
     }
     else {
         setLoading(false);
@@ -160,7 +160,7 @@ const handleCancel = async () => {
     if (!post) {
         window.location = "/";
     } else {
-        const res = await fetch(`/api/posts/delete?postId=${post.postId}`, {
+        const res = await fetch(`/shersocial/api/posts/delete?postId=${post.postId}`, {
             method: "DELETE"
         });
         if (res.ok) {

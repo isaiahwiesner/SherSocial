@@ -59,7 +59,7 @@ const handleSubmit = async (e) => {
         privacy: fields.privacy.value
     };
     if (!post) {
-        const res = await fetch("/api/posts/add", {
+        const res = await fetch("/shersocial/api/posts/add", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -67,7 +67,7 @@ const handleSubmit = async (e) => {
             body: JSON.stringify(body)
         });
         if (res.ok) {
-            window.location = "/post?images=1";
+            window.location = "/shersocial/post?images=1";
         } else {
             const data = await res.json();
             if (data.errors) {
@@ -83,7 +83,7 @@ const handleSubmit = async (e) => {
         }
     }
     else {
-        const res = await fetch(`/api/posts/update?postId=${post.postId}&ignoreNoChanges=1`, {
+        const res = await fetch(`/shersocial/api/posts/update?postId=${post.postId}&ignoreNoChanges=1`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -91,7 +91,7 @@ const handleSubmit = async (e) => {
             body: JSON.stringify(body)
         });
         if (res.ok) {
-            window.location = "/post?images=1";
+            window.location = "/shersocial/post?images=1";
         } else {
             const data = await res.json();
             if (data.errors) {
@@ -114,7 +114,7 @@ const handleCancel = async () => {
         window.location = "/";
     }
     else {
-        const res = await fetch(`/api/posts/delete?postId=${post.postId}`, {
+        const res = await fetch(`/shersocial/api/posts/delete?postId=${post.postId}`, {
             method: "DELETE"
         });
         if (res.ok) {

@@ -108,7 +108,7 @@ const handleSaveImage = async (e) => {
         image: file ? await convertDataUri(file) : fields.imageLink.value,
         fileType: file ? file.name.split(".").slice(-1) : null
     };
-    const res = await fetch(`/api/posts/add-image?postId=${post.postId}`, {
+    const res = await fetch(`/shersocial/api/posts/add-image?postId=${post.postId}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -135,7 +135,7 @@ const handleSaveImage = async (e) => {
 const handleRemoveImage = async (e) => {
     const imagePath = e.target.getAttribute("data-image-path");
     setLoading(true);
-    const res = await fetch(`/api/posts/remove-image?postId=${post.postId}&imagePath=${encodeURIComponent(imagePath)}`, {
+    const res = await fetch(`/shersocial/api/posts/remove-image?postId=${post.postId}&imagePath=${encodeURIComponent(imagePath)}`, {
         method: "DELETE"
     });
     if (res.ok) {
@@ -164,7 +164,7 @@ const handleSubmit = async (e) => {
         content: fields.content.value,
         privacy: fields.privacy.value
     };
-    const res = await fetch(`/api/posts/update?postId=${post.postId}`, {
+    const res = await fetch(`/shersocial/api/posts/update?postId=${post.postId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
@@ -172,7 +172,7 @@ const handleSubmit = async (e) => {
         body: JSON.stringify(body)
     });
     if (res.ok) {
-        window.location = `/posts/${post.postId}`;
+        window.location = `/shersocial/posts/${post.postId}`;
     } else {
         const data = await res.json();
         if (data.errors) {
@@ -189,11 +189,11 @@ const handleSubmit = async (e) => {
 };
 
 const handleDeletePost = async () => {
-    const res = await fetch(`/api/posts/delete?postId=${post.postId}`, {
+    const res = await fetch(`/shersocial/api/posts/delete?postId=${post.postId}`, {
         method: "DELETE"
     });
     if (res.ok) {
-        window.location = "/profile";
+        window.location = "/shersocial/profile";
     }
 };
 

@@ -58,7 +58,7 @@ const handleSubmit = async (e) => {
         password: fields.password.value,
         confirmPassword: fields.confirmPassword.value
     };
-    const res = await fetch("/api/admin/add-user", {
+    const res = await fetch("/shersocial/api/admin/add-user", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -66,7 +66,7 @@ const handleSubmit = async (e) => {
         body: JSON.stringify(body)
     });
     if (res.ok) {
-        window.location = "/admin/users";
+        window.location = "/shersocial/admin/users";
     } else {
         const data = await res.json();
         if (data.errors) {

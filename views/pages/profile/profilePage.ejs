@@ -36,7 +36,7 @@
           </section>
         </section>
         <% if (locals.auth.user && locals.auth.user.userId === locals.user.userId) { %>
-        <a href="/profile/edit" class="btn btn-primary w-100">
+        <a href="/shersocial/profile/edit" class="btn btn-primary w-100">
           <i class="fa-solid fa-pen-to-square"></i> Edit Profile
         </a>
         <% } else if (locals.isFollowing) { %>
@@ -63,7 +63,7 @@
     const authUser = JSON.parse('<%- locals.auth.user ? JSON.stringify(locals.auth.user) : "null" %>');
     const genPath = '<%- locals.generalizedPath %>';
   </script>
-  <script src="/static/js/pages/profile/profile.js"></script>
+  <script src="/shersocial/static/js/pages/profile/profile.js"></script>
 </body>
 
 

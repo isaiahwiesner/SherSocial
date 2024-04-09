@@ -39,7 +39,7 @@
           <button type="submit" class="btn btn-info" id="post-btn">
             Post &nbsp;<i class="fa-solid fa-check"></i>
           </button>
-          <a role="button" class="btn btn-primary" href="/post" id="back-btn">
+          <a role="button" class="btn btn-primary" href="/shersocial/post" id="back-btn">
             <i class="fa-solid fa-arrow-left"></i> &nbsp;Back
           </a>
           <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
@@ -53,7 +53,7 @@
     const user = JSON.parse('<%- JSON.stringify(locals.auth.user) %>');
     const post = JSON.parse('<%- locals.post ? JSON.stringify(locals.post).replace(/\\/g, "\\\\") : "null" %>');
   </script>
-  <script src="/static/js/pages/posts/postImages.js"></script>
+  <script src="/shersocial/static/js/pages/posts/postImages.js"></script>
 </body>
 
 

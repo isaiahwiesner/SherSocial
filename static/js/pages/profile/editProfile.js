@@ -122,7 +122,7 @@ const handleImageUpload = async (e) => {
         image: file ? await convertDataUri(file) : fields.imageLink.value,
         fileType: file ? file.name.split(".").slice(-1) : null
     };
-    const res = await fetch("/api/profile-image", {
+    const res = await fetch("/shersocial/api/profile-image", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -149,7 +149,7 @@ const handleImageUpload = async (e) => {
 const handleDeleteImage = async () => {
     resetErrors();
     setLoading(true);
-    const res = await fetch("/api/delete-profile-image", {
+    const res = await fetch("/shersocial/api/delete-profile-image", {
         method: "DELETE"
     });
     if (res.ok) {
@@ -172,7 +172,7 @@ const handleEditSubmit = async (e) => {
     Object.keys(body).forEach(k => {
         if (k === "") delete body[k];
     });
-    const res = await fetch("/api/edit-profile", {
+    const res = await fetch("/shersocial/api/edit-profile", {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"

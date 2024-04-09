@@ -2,7 +2,7 @@
   <!-- Container -->
   <section class="container">
     <!-- Brand -->
-    <a href="/" class="navbar-brand">SherSocial</a>
+    <a href="/shersocial" class="navbar-brand">SherSocial</a>
     <!-- Mobile Nav Toggler -->
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbar-items" aria-controls="navbar-items" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -20,13 +20,13 @@
         <ul class="navbar-nav justify-content-lg-end align-items-lg-center flex-grow-1 pe-3" style="height: 4rem;">
           <!-- Home page link -->
           <li class="nav-item">
-            <a class="nav-link <%= locals.currentPage === 'home' ? 'active' : '' %>" href="/">Home</a>
+            <a class="nav-link <%= locals.currentPage === 'home' ? 'active' : '' %>" href="/shersocial">Home</a>
           </li>
           <!-- User is logged in -->
           <% if (locals.auth.user) { %>
           <!-- Post page link -->
           <li class="nav-item">
-            <a class="nav-link <%= locals.currentPage === 'post' ? 'active' : '' %>" href="/post">Post</a>
+            <a class="nav-link <%= locals.currentPage === 'post' ? 'active' : '' %>" href="/shersocial/post">Post</a>
           </li>
           <!-- Dropdown menu within nav -->
           <li class="nav-item dropdown">
@@ -43,12 +43,12 @@
               <!-- Full name text (only on desktop as mobile sees it as toggler) -->
               <li><a class="dropdown-item disabled d-none d-lg-block" role="button"><%- locals.auth.user.fullName %></a></li>
               <!-- Profile Link -->
-              <li><a class="dropdown-item btn btn-light <%= locals.currentPage === 'profile' ? 'active' : '' %>" href="/profile">Profile</a></li>
+              <li><a class="dropdown-item btn btn-light <%= locals.currentPage === 'profile' ? 'active' : '' %>" href="/shersocial/profile">Profile</a></li>
               <!-- Edit Profile Link -->
-              <li><a class="dropdown-item btn btn-light <%= locals.currentPage === 'edit-profile' ? 'active' : '' %>" href="/profile/edit">Edit Profile</a></li>
+              <li><a class="dropdown-item btn btn-light <%= locals.currentPage === 'edit-profile' ? 'active' : '' %>" href="/shersocial/profile/edit">Edit Profile</a></li>
               <!-- Admin Dashboard Link -->
               <% if (locals.auth.user.admin) { %>
-              <li><a class="dropdown-item btn btn-light <%= locals.currentPage === 'admin' ? 'active' : '' %>" href="/admin">Admin Dashboard</a></li>
+              <li><a class="dropdown-item btn btn-light <%= locals.currentPage === 'admin' ? 'active' : '' %>" href="/shersocial/admin">Admin Dashboard</a></li>
               <% } %>
               <!-- Dropdown Divider -->
               <li>
@@ -66,7 +66,7 @@
           <% } else { %>
           <!-- Login page link -->
           <li class="nav-item">
-            <a class="nav-link <%= locals.currentPage === 'login' ? 'active' : '' %>" href="/login<%= locals.generalizedPath == "/" ? "" : `?redirect=${encodeURIComponent(locals.generalizedPath.slice(1))}` %>">Log In</a>
+            <a class="nav-link <%= locals.currentPage === 'login' ? 'active' : '' %>" href="/shersocial/login<%= locals.generalizedPath === "/shersocial" ? "" : `?redirect=${encodeURIComponent(locals.generalizedPath.slice(1))}` %>">Log In</a>
           </li>
           <% } %>
         </ul>
@@ -96,4 +96,4 @@
   </section>
 </section>
 
-<script src="/static/js/components/nav.js"></script>
+<script src="/shersocial/static/js/components/nav.js"></script>

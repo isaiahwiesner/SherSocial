@@ -52,7 +52,7 @@ const handleSubmit = async (e) => {
         signupCode: fields.signupCode.value,
         expiresAt: fields.expiresAt.value ? fields.expiresAt.value : null
     };
-    const res = await fetch("/api/admin/add-signup-code", {
+    const res = await fetch("/shersocial/api/admin/add-signup-code", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -60,7 +60,7 @@ const handleSubmit = async (e) => {
         body: JSON.stringify(body)
     });
     if (res.ok) {
-        window.location = "/admin/signup-codes";
+        window.location = "/shersocial/admin/signup-codes";
     } else {
         const data = await res.json();
         if (data.errors) {

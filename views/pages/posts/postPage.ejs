@@ -22,7 +22,7 @@
           <label for="content" class="mb-1">Content</label>
           <textarea id="content" rows="5" class="form-control" autocomplete="off" aria-describedby="contentHelper"><%- locals.post ? locals.post.content : '' %></textarea>
           <small id="contentHelper" class="form-text text-danger"></small>
-          <p class="m-0"><a class="form-text text-decoration-none" href="/posts/b3be0d71-b3d5-40e3-a2b1-eaebddd32bec" target="_blank">This field supports custom markdown-like features <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
+          <p class="m-0"><a class="form-text text-decoration-none" href="/shersocial/posts/b3be0d71-b3d5-40e3-a2b1-eaebddd32bec" target="_blank">This field supports custom markdown-like features <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
         </section>
         <section class="mb-3">
           <label for="privacy" class="mb-1">Privacy</label>
@@ -50,7 +50,7 @@
     const user = JSON.parse('<%- JSON.stringify(locals.auth.user) %>');
     const post = JSON.parse('<%- locals.post ? JSON.stringify(locals.post).replace(/\\/g, "\\\\") : "null" %>');
   </script>
-  <script src="/static/js/pages/posts/post.js"></script>
+  <script src="/shersocial/static/js/pages/posts/post.js"></script>
 </body>
 
 

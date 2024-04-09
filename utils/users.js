@@ -169,7 +169,7 @@ const uploadUserImage = (userId, dataUri, fileType) => {
         const base64Data = dataUriParts[2];
         const buffer = Buffer.from(base64Data, "base64");
         fs.writeFileSync(`usercontent/user-images/${userId}.${fileType}`, buffer);
-        resolve(`/usercontent/user-images/${userId}.${fileType}`);
+        resolve(`/shersocial/usercontent/user-images/${userId}.${fileType}`);
     });
 };
 

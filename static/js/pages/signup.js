@@ -56,7 +56,7 @@ const handleSubmit = async (e) => {
         firstName: fields.firstName.value,
         lastName: fields.lastName.value
     };
-    const res = await fetch("/api/signup", {
+    const res = await fetch("/shersocial/api/signup", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

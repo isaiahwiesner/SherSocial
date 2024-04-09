@@ -13,9 +13,9 @@ const requireAuth = (options = {
             }
             else { // Page route, return redirect to login page with
                 const curPath = getGeneralizedPath(req.path); // Get generalized path (always starts with "/" and never ends with "/")
-                return res.redirect("/login" // Always start with /login
+                return res.redirect("/shersocial/login" // Always start with /login
                     + (options.redirectPath ? `?redirect=${encodeURIComponent(options.redirectPath)}` // Redirect path provided 
-                        : curPath === "/" ? "" // Current path is "/", doesn't need a redirect query param since it is defaulted to "/"
+                        : curPath === "/shersocial" ? "" // Current path is "/shersocial", doesn't need a redirect query param since it is defaulted to "/"
                         : `?redirect=${encodeURIComponent(curPath.slice(1))}`) // Any other path gets a "redirect" query param with encoded path without starting "/"
                 )
             }

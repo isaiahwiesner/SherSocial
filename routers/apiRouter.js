@@ -26,9 +26,9 @@ const apiRouter = Router();
 // Authentication Routes
 
 // Sign Up
-// /api/signup
+// /shersocial/api/signup
 apiRouter.post(
-    "/signup", // apiRouter uses "/api" root - /api/signup
+    "/signup", // apiRouter uses "/shersocial/api" root - /shersocial/api/signup
     disallowAuth({ type: "json", message: "You are already logged in!" }), // Don't allow logged in users
     body("signupCode").exists().notEmpty().withMessage("Sign up code is required."), // Require non-empty first name field
     body("signupCode").custom(async (val) => !(await getSignupCode(val)) && Promise.reject()).withMessage("Invalid sign up code."),
@@ -66,9 +66,9 @@ apiRouter.post(
     }
 );
 // Login
-// /api/login
+// /shersocial/api/login
 apiRouter.post(
-    "/login", // apiRouter uses "/api" root - /api/login
+    "/login", // apiRouter uses "/shersocial/api" root - /shersocial/api/login
     disallowAuth({ type: "json", message: "You are already logged in!" }), // Don't allow logged in users
     body("username").toLowerCase().exists().notEmpty().withMessage("Username is required."), // Require non-empty username field
     body("username").toLowerCase().custom(async (val, { req }) => (val && req.body.password && !(await comparePass(val, req.body.password))) && Promise.reject()).withMessage("Invalid username or password."), // Compare username and password and see if it is valid
@@ -98,9 +98,9 @@ apiRouter.post(
     }
 );
 // Logout
-// /api/logout
+// /shersocial/api/logout
 apiRouter.post(
-    "/logout", // apiRouter uses "/api" root - /api/logout
+    "/logout", // apiRouter uses "/shersocial/api" root - /shersocial/api/logout
     requireAuth({ type: "json", message: "You are already logged out!" }), // Require logged-in user
     (req, res) => {
         res.clearCookie("accessToken"); // Clear JWT access token from cookies
@@ -114,7 +114,7 @@ apiRouter.post(
 // Profile Routes
 
 // Edit Profile
-// /api/edit-profile
+// /shersocial/api/edit-profile
 apiRouter.put(
     "/edit-profile",
     requireAuth({ type: "json", message: "This route requires authentication." }),
@@ -157,7 +157,7 @@ apiRouter.put(
     }
 );
 // Upload Profile Image
-// /api/profile-image
+// /shersocial/api/profile-image
 apiRouter.post(
     "/profile-image",
     requireAuth({ type: "json", message: "This route requires authentication." }),
@@ -203,7 +203,7 @@ apiRouter.post(
     }
 );
 // Delete Profile Image
-// /api/delete-profile-image
+// /shersocial/api/delete-profile-image
 apiRouter.delete(
     "/delete-profile-image",
     requireAuth({ type: "json", message: "This route requires authentication." }),
@@ -226,7 +226,7 @@ apiRouter.delete(
     }
 );
 // Update Password
-// /api/update-password
+// /shersocial/api/update-password
 apiRouter.put(
     "/update-password",
     requireAuth({ type: "json", message: "This route requires authentication." }),
@@ -271,7 +271,7 @@ apiRouter.put(
 // User Routes
 
 // Get User Posts
-// /api/users/posts
+// /shersocial/api/users/posts
 apiRouter.get(
     "/users/posts",
     async (req, res) => {
@@ -363,7 +363,7 @@ apiRouter.get(
     }
 );
 // Follow User
-// /api/users/follow
+// /shersocial/api/users/follow
 apiRouter.post(
     "/users/follow",
     requireAuth({ type: "json", message: "This route requires authentication." }),
@@ -397,7 +397,7 @@ apiRouter.post(
     }
 );
 // Unfollow User
-// /api/users/unfollow
+// /shersocial/api/users/unfollow
 apiRouter.post(
     "/users/unfollow",
     requireAuth({ type: "json", message: "This route requires authentication." }),
@@ -434,7 +434,7 @@ apiRouter.post(
 // Post Routes
 
 // Get Posts
-// /api/posts
+// /shersocial/api/posts
 apiRouter.get(
     "/posts",
     async (req, res) => {
@@ -502,7 +502,7 @@ apiRouter.get(
 );
 
 // Create Post
-// /api/posts/add
+// /shersocial/api/posts/add
 apiRouter.post(
     "/posts/add",
     requireAuth({ type: "json", message: "This route requires authentication." }),
@@ -531,7 +531,7 @@ apiRouter.post(
     }
 );
 // Publish Post
-// /api/posts/publish
+// /shersocial/api/posts/publish
 apiRouter.post(
     "/posts/publish",
     requireAuth({ type: "json", message: "This route requires authentication." }),
@@ -566,7 +566,7 @@ apiRouter.post(
     }
 );
 // Edit Post
-// /api/posts/update
+// /shersocial/api/posts/update
 apiRouter.put(
     "/posts/update",
     requireAuth({ type: "json", message: "This route requires authentication." }),
@@ -614,7 +614,7 @@ apiRouter.put(
     }
 );
 // Delete Post
-// /api/posts/delete
+// /shersocial/api/posts/delete
 apiRouter.delete(
     "/posts/delete",
     requireAuth({ type: "json", message: "This route requires authentication." }),
@@ -642,7 +642,7 @@ apiRouter.delete(
     }
 );
 // Add Post Image
-// /api/posts/add-image
+// /shersocial/api/posts/add-image
 apiRouter.post(
     "/posts/add-image",
     requireAuth({ type: "json", message: "This route requires authentication." }),
@@ -698,7 +698,7 @@ apiRouter.post(
     }
 );
 // Remove Post Image
-// /api/posts/remove-image
+// /shersocial/api/posts/remove-image
 apiRouter.delete(
     "/posts/remove-image",
     requireAuth({ type: "json", message: "This route requires authentication." }),
@@ -729,7 +729,7 @@ apiRouter.delete(
     }
 );
 // Like Post
-// /api/posts/like-post
+// /shersocial/api/posts/like-post
 apiRouter.post(
     "/posts/like-post",
     requireAuth({ type: "json", message: "This route requires authentication." }),
@@ -767,7 +767,7 @@ apiRouter.post(
     }
 );
 // Unlike Post
-// /api/posts/unlike-post
+// /shersocial/api/posts/unlike-post
 apiRouter.post(
     "/posts/unlike-post",
     requireAuth({ type: "json", message: "This route requires authentication." }),
@@ -807,9 +807,9 @@ apiRouter.post(
 // Admin Routes
 
 // Add User
-// /api/admin/add-user
+// /shersocial/api/admin/add-user
 apiRouter.post(
-    "/admin/add-user", // apiRouter uses "/api" root - /api/admin/add-user
+    "/admin/add-user", // apiRouter uses "/shersocial/api" root - /shersocial/api/admin/add-user
     requireAuth({ type: "json", message: "This route requires authentication." }), // Require logged-in user
     requireAdmin({ type: "json", title: "Access Denied", message: "You do not have access to this route." }), // Require admin user
     body("username").toLowerCase().exists().notEmpty().withMessage("Username is required."), // Require non-empty username field
@@ -851,7 +851,7 @@ apiRouter.post(
     }
 );
 // Get Users
-// /api/admin/users
+// /shersocial/api/admin/users
 apiRouter.get(
     "/admin/users",
     requireAuth({ type: "json", message: "This route requires authentication." }), // Require logged-in user
@@ -900,9 +900,9 @@ apiRouter.get(
     }
 );
 // Delete User
-// /api/admin/delete-user
+// /shersocial/api/admin/delete-user
 apiRouter.delete(
-    "/admin/delete-user", // apiRouter uses "/api" root - /api/admin/delete-user
+    "/admin/delete-user", // apiRouter uses "/shersocial/api" root - /shersocial/api/admin/delete-user
     requireAuth({ type: "json", message: "This route requires authentication." }), // Require logged-in user
     requireAdmin({ type: "json", title: "Access Denied", message: "You do not have access to this route." }), // Require admin user
     async (req, res) => {
@@ -932,9 +932,9 @@ apiRouter.delete(
 );
 
 // Add Signup Code
-// /api/admin/add-signup-code
+// /shersocial/api/admin/add-signup-code
 apiRouter.post(
-    "/admin/add-signup-code", // apiRouter uses "/api" root - /api/admin/add-user
+    "/admin/add-signup-code", // apiRouter uses "/shersocial/api" root - /shersocial/api/admin/add-user
     requireAuth({ type: "json", message: "This route requires authentication." }), // Require logged-in user
     body("signupCode").matches(/^\w{4,24}$/).withMessage("Invalid sign up code."),
     body("signupCode").exists().notEmpty().withMessage("Sign up code is required."),
@@ -962,7 +962,7 @@ apiRouter.post(
 
 );
 // Get Sign Up Codes
-// /api/admin/signup-codes
+// /shersocial/api/admin/signup-codes
 apiRouter.get(
     "/admin/signup-codes",
     requireAuth({ type: "json", message: "This route requires authentication." }), // Require logged-in user
@@ -1000,9 +1000,9 @@ apiRouter.get(
     }
 );
 // Delete Sign Up Code
-// /api/admin/delete-signup-code
+// /shersocial/api/admin/delete-signup-code
 apiRouter.delete(
-    "/admin/delete-signup-code", // apiRouter uses "/api" root - /api/admin/delete-signup-code
+    "/admin/delete-signup-code", // apiRouter uses "/shersocial/api" root - /shersocial/api/admin/delete-signup-code
     requireAuth({ type: "json", message: "This route requires authentication." }), // Require logged-in user
     requireAdmin({ type: "json", title: "Access Denied", message: "You do not have access to this route." }), // Require admin user
     async (req, res) => {

@@ -3,7 +3,7 @@ const postsContainer = document.getElementById("posts");
 var resultData = {};
 
 const fetchPosts = async (page) => {
-    const res = await fetch(`/api/posts?page=${page}`);
+    const res = await fetch(`/shersocial/api/posts?page=${page}`);
     if (res.ok) {
         const data = await res.json();
         resultData.page = data.page;
@@ -24,7 +24,7 @@ const appendPosts = (posts) => {
         posts.forEach(p => {
             console.log(p)
             if (p.image) {
-                postsInnerHTML += `<a href="/posts/${p.postId}" role="button" class="card text-decoration-none overflow-hidden">
+                postsInnerHTML += `<a href="/shersocial/posts/${p.postId}" role="button" class="card text-decoration-none overflow-hidden">
                     <img src="${p.image}" alt="${p.title}" class="object-fit-cover" style="height: 12rem;">
                     <hr class="hr m-0">
                     <section class="card-body">
@@ -48,7 +48,7 @@ const appendPosts = (posts) => {
                 </a>`;
             }
             else {
-                postsInnerHTML += `<a href="/posts/${p.postId}" role="button" class="card text-decoration-none overflow-hidden">
+                postsInnerHTML += `<a href="/shersocial/posts/${p.postId}" role="button" class="card text-decoration-none overflow-hidden">
                     <section class="card-body">
                         <h4 class="mb-2">${p.title}</h4>
                         <section class="d-flex gap-3 align-items-center mb-2">
