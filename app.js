@@ -22,16 +22,16 @@ const app = express();
 app.use(express.json()); // Use JSON body parser
 app.use(cookieParser()); // Use cookie parser
 app.set("view engine", "ejs"); // Set view engine to ejs
-app.use("/static", express.static("static")); // Use static file from directory "static" with "/static" as path root
-app.use("/usercontent", express.static("usercontent")); // Use static file from directory "usercontent" with "/usercontent" as path root - for storing user files
+app.use("/shersocial/static", express.static("static")); // Use static file from directory "static" with "/static" as path root
+app.use("/shersocial/usercontent", express.static("usercontent")); // Use static file from directory "usercontent" with "/usercontent" as path root - for storing user files
 app.use((req, res, next) => { // Assigns generalized path to request for use in ejs 
     req.generalizedPath = getGeneralizedPath(req.path);
     return next();
 });
 app.use(authenticate); // Authenticate requests (refresh if needed, attach user to request)
 app.use(passResetRequired()); // Authenticate requests (refresh if needed, attach user to request)
-app.use("/api", apiRouter); // Use page router for all requests with "/api" as path root
-app.use(pageRouter); // Use page router for all requests with "/" as path root (all)
+app.use("/shersocial/api", apiRouter); // Use page router for all requests with "/api" as path root
+app.use("/shersocial", pageRouter); // Use page router for all requests with "/" as path root (all)
 
 
 // Start App
