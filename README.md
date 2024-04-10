@@ -112,11 +112,12 @@ app.set("view engine", "ejs");
 ## Step 3 - Create Folders
 You are going to need to store your EJS files in a folder called "views". A common file structure is to have embedded folders for pages and "partials" (data that is only partially part of a page and can be reused).
 ```
-├── appfolder
-│   ├── app.js
-│   └── views
-│       ├── pages
-└───────└── partials
+appfolder
+│   app.js
+│   
+└───views
+    ├───pages
+    └───partials
 ```
 ## Step 4 - Render Responses
 In either your mail app file or a file containing a router, you will use this code in to render.
