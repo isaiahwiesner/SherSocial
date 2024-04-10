@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
         q: window.location.search.match(/[\?&]q=([^&]*)/) ? window.location.search.match(/[\?&]q=([^&]*)/)[1] : null,
         page: window.location.search.match(/[\?&]page=([^&]*)/) ? parseInt(window.location.search.match(/[\?&]page=([^&]*)/)[1]) : 1,
         resultsPerPage: window.location.search.match(/[\?&]resultsPerPage=([^&]*)/) ? parseInt(window.location.search.match(/[\?&]resultsPerPage=([^&]*)/)[1]) : 10,
-        orderBy: "createdAt DESC"
+        orderBy: window.location.search.match(/[\?&]orderBy=([^&]*)/) ? parseInt(window.location.search.match(/[\?&]orderBy=([^&]*)/)[1]) : "createdAt DESC"
     };
     var perPageHTML = "";
     perPageHTML += `
@@ -149,6 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <option value="likes, createdAt DESC" ${queryParams.orderBy === "likes, createdAt DESC" ? 'selected' : ''}>Least Popular</option>
       <option value="userUsername, createdAt DESC" ${queryParams.orderBy === "userUsername, createdAt DESC" ? 'selected' : ''}>User's Username</option>
       <option value="userUsername DESC, createdAt DESC" ${queryParams.orderBy === "userUsername DESC, createdAt DESC" ? 'selected' : ''}>User's Username (Reverse)</option>`;
+    searchInput.value = queryParams.q ? queryParams.q : "";
     searchResultsOrderBy.innerHTML = orderByHTML;
     searchForm.addEventListener("submit", handleSearch);
     searchResultsPerPage.addEventListener("change", () => handleSearch());
