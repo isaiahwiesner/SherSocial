@@ -154,7 +154,7 @@ const handleUnassignAdmin = async (e) => {
 };
 document.addEventListener("DOMContentLoaded", () => {
     queryParams = {
-        q: window.location.search.match(/[\?&]q=([^&]*)/) ? window.location.search.match(/[\?&]q=([^&]*)/)[1] : null,
+        q: window.location.search.match(/[\?&]q=([^&]*)/) ? decodeURIComponent(window.location.search.match(/[\?&]q=([^&]*)/)[1]) : null,
         page: window.location.search.match(/[\?&]page=([^&]*)/) ? parseInt(window.location.search.match(/[\?&]page=([^&]*)/)[1]) : 1,
         resultsPerPage: window.location.search.match(/[\?&]resultsPerPage=([^&]*)/) ? parseInt(window.location.search.match(/[\?&]resultsPerPage=([^&]*)/)[1]) : 10
     };
