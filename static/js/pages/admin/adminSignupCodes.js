@@ -132,6 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (![5, 10, 25, 50].includes(queryParams.resultsPerPage) && queryParams.resultsPerPage > 0) {
         perPageHTML += `<option value="${queryParams.resultsPerPage}" selected>${queryParams.resultsPerPage}</option>`
     }
+    searchInput.value = queryParams.q ? queryParams.q : "";
     searchResultsPerPage.innerHTML = perPageHTML;
     searchForm.addEventListener("submit", handleSearch);
     searchResultsPerPage.addEventListener("change", () => handleSearch());
