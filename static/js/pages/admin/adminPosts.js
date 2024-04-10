@@ -145,8 +145,8 @@ document.addEventListener("DOMContentLoaded", () => {
     orderByHTML += `
       <option value="createdAt DESC" ${queryParams.orderBy ==="createdAt DESC" ? 'selected' : ''}>Newest</option>
       <option value="createdAt" ${queryParams.orderBy === "createdAt" ? 'selected' : ''}>Oldest</option>
-      <option value="likes DESC" ${queryParams.orderBy ==="likes DESC" ? 'selected' : ''}>Most Popular</option>
-      <option value="likes" ${queryParams.orderBy === "likes" ? 'selected' : ''}>Least Popular</option>
+      <option value="likes DESC, createdAt DESC" ${queryParams.orderBy ==="likes DESC, createdAt DESC" ? 'selected' : ''}>Most Popular</option>
+      <option value="likes, createdAt DESC" ${queryParams.orderBy === "likes, createdAt DESC" ? 'selected' : ''}>Least Popular</option>
       <option value="userUsername, createdAt DESC" ${queryParams.orderBy === "userUsername, createdAt DESC" ? 'selected' : ''}>User's Username</option>
       <option value="userUsername DESC, createdAt DESC" ${queryParams.orderBy === "userUsername DESC, createdAt DESC" ? 'selected' : ''}>User's Username (Reverse)</option>`;
     searchResultsOrderBy.innerHTML = orderByHTML;
