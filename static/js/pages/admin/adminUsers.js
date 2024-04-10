@@ -8,8 +8,8 @@ const deleteUserBtn = document.getElementById("delete-user-confirm");
 const cancelDeleteUserBtn = document.getElementById("cancel-delete-user-confirm");
 var currentUsers = [];
 var currentResults = {};
-var currentDeleteUser = null;
 var queryParams = {};
+var currentDeleteUser = null;
 const handleSearch = async (e) => {
     if (e) {
         e.preventDefault();

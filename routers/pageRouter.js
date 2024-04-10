@@ -34,6 +34,15 @@ pageRouter.get("/", (req, res) => {
         generalizedPath: req.generalizedPath
     });
 });
+// Search Page
+// /shersocial/search
+pageRouter.get("/search", (req, res) => {
+    if (!req.query.q) return res.redirect("/shersocial");
+    return res.render("pages/searchPage", {
+        auth: { user: req.user }, // Assign auth.user to the user if there is one
+        generalizedPath: req.generalizedPath
+    });
+});
 
 // Profile Page
 // /shersocial/profile

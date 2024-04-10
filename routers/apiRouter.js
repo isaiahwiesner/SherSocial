@@ -511,6 +511,115 @@ apiRouter.get(
     }
 );
 
+// Search
+// /shersocial/api/search
+apiRouter.get(
+    "/search",
+    async (req, res) => {
+        const perPage = req.query.resultsPerPage || 10;
+        const page = (req.query.page || 1) < 1 ? 1 : (req.query.page || 1);
+        const q = req.query.q || "";
+        const orderBy = req.query.orderBy ? decodeURIComponent(erq.query.orderBy) : "likes DESC";
+        try {
+            if (req.user) {
+                con.query(`SELECT COUNT(*) AS count
+                FROM posts
+                LEFT JOIN users ON posts.createdBy = users.userId
+                WHERE (((privacy = 'public' OR privacy = 'members') AND posted = 1)
+                AND (
+                    LOWER(posts.title) LIKE '%${q.toLowerCase()}%'
+                    OR LOWER(users.username) LIKE '%${q.toLowerCase()}%'
+                    OR CONCAT(LOWER(users.firstName), ' ', LOWER(users.lastName)) LIKE '%${q.toLowerCase()}%'
+                    OR posts.postId = '${q}'
+                    OR users.userId = '${q}'
+                ))`, (err, postCount) => {
+                    if (err) throw err;
+                    con.query(`SELECT posts.postId, posts.title, posts.content, MIN(post_images.image) AS image, posts.privacy, posts.createdBy, posts.createdAt, posts.updatedAt,
+                    (SELECT COUNT(*) FROM post_likes WHERE post_likes.postId = posts.postId) as likes,
+                    CONCAT(users.firstName, ' ', users.lastName) creatorFullName, users.username as creatorUsername, users.image as creatorImage
+                    FROM posts
+                    LEFT JOIN post_images on posts.postId = post_images.postId
+                    LEFT JOIN users on posts.createdBy = users.userId
+                    WHERE (((privacy = 'public' OR privacy = 'members') AND posted = 1)
+                    AND (
+                        LOWER(posts.title) LIKE '%${q.toLowerCase()}%'
+                        OR LOWER(users.username) LIKE '%${q.toLowerCase()}%'
+                        OR CONCAT(LOWER(users.firstName), ' ', LOWER(users.lastName)) LIKE '%${q.toLowerCase()}%'
+                        OR posts.postId = '${q}'
+                        OR users.userId = '${q}'
+                    ))
+                    GROUP BY posts.postId
+                    ORDER BY ${orderBy}
+                    LIMIT ${perPage}
+                    ${page > 1 ? ` OFFSET ${((page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) - 1) * perPage}` : ''}`, (err, rows) => {
+                        if (err) throw err;
+                        return res.status(200).json({
+                            status: 200, ok: true, detail: "Posts fetched!",
+                            posts: rows.map(r => {
+                                return { ...r, timeSince: getTimeSince(r.createdAt) }
+                            }),
+                            orderBy,
+                            page: parseInt((page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) > 0 ? (page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) : 1),
+                            resultsPerPage: parseInt(perPage),
+                            pages: Math.ceil(postCount[0].count / perPage)
+                        });
+                    });
+                });
+            }
+            // User is not logged in - public privacy only
+            else {
+                con.query(`SELECT COUNT(*) AS count
+                FROM posts
+                LEFT JOIN users ON posts.createdBy = users.userId
+                WHERE ((privacy = 'public' AND posted = 1)
+                AND (
+                    LOWER(posts.title) LIKE '%${q.toLowerCase()}%'
+                    OR LOWER(users.username) LIKE '%${q.toLowerCase()}%'
+                    OR CONCAT(LOWER(users.firstName), ' ', LOWER(users.lastName)) LIKE '%${q.toLowerCase()}%'
+                    OR posts.postId = '${q}'
+                    OR users.userId = '${q}'
+                ))`, (err, postCount) => {
+                    if (err) throw err;
+                    con.query(`SELECT posts.postId, posts.title, posts.content, MIN(post_images.image) AS image, posts.privacy, posts.createdBy, posts.createdAt, posts.updatedAt,
+                    (SELECT COUNT(*) FROM post_likes WHERE post_likes.postId = posts.postId) as likes,
+                    CONCAT(users.firstName, ' ', users.lastName) creatorFullName, users.username as creatorUsername, users.image as creatorImage
+                    FROM posts
+                    LEFT JOIN post_images on posts.postId = post_images.postId
+                    LEFT JOIN users on posts.createdBy = users.userId
+                    WHERE 
+                    WHERE ((privacy = 'public' AND posted = 1)
+                    AND (
+                        LOWER(posts.title) LIKE '%${q.toLowerCase()}%'
+                        OR LOWER(users.username) LIKE '%${q.toLowerCase()}%'
+                        OR CONCAT(LOWER(users.firstName), ' ', LOWER(users.lastName)) LIKE '%${q.toLowerCase()}%'
+                        OR posts.postId = '${q}'
+                        OR users.userId = '${q}'
+                    ))
+                    GROUP BY posts.postId
+                    ORDER BY ${orderBy}
+                    LIMIT ${perPage}
+                    ${page > 1 ? ` OFFSET ${((page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) - 1) * perPage}` : ''}`, (err, rows) => {
+                        if (err) throw err;
+                        return res.status(200).json({
+                            status: 200, ok: true, detail: "Posts fetched!",
+                            posts: rows.map(r => {
+                                return { ...r, timeSince: getTimeSince(r.createdAt) }
+                            }),
+                            orderBy,
+                            page: parseInt((page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) > 0 ? (page > Math.ceil(postCount[0].count / perPage) ? Math.ceil(postCount[0].count / perPage) : page) : 1),
+                            resultsPerPage: parseInt(perPage),
+                            pages: Math.ceil(postCount[0].count / perPage)
+                        });
+                    });
+                });
+            }
+        }
+        catch (e) {
+            return res.status(500).json({ status: 500, ok: false, detail: "Unable to fetch posts.", stack: e.stack });
+        }
+    }
+);
+
 // Create Post
 // /shersocial/api/posts/add
 apiRouter.post(

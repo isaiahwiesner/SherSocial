@@ -4,13 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <%- include('../partials/head.ejs', {title: "Home"}) %>
+  <%- include('../partials/head.ejs', {title: "Search Results"}) %>
 </head>
 
 <body>
-  <%- include('../partials/components/nav.ejs', {currentPage: "home"}) %>
+  <%- include('../partials/components/nav.ejs', {currentPage: "search"}) %>
   <main class="container py-2 my-3">
-    <h1 class="text-center mb-3">Recent Posts</h1>
+    <h1 class="text-center mb-3">Search Results</h1>
     <form class="input-group w-100 mb-3 m-auto" id="search-form" style="max-width: 60rem;">
       <input type="text" class="form-control" id="search-input" autocomplete="off" placeholder="Search by title, name, username, user ID, or post ID">
       <button type="submit" class="btn btn-secondary" id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -19,7 +19,7 @@
     </section>
   </main>
   <%- include('../partials/scripts.ejs') %>
-  <script src="/shersocial/static/js/pages/home.js"></script>
+  <script src="/shersocial/static/js/pages/search.js"></script>
 </body>
 
 

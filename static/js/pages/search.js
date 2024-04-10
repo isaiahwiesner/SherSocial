@@ -3,9 +3,10 @@ const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("search-input");
 
 var resultData = {};
+const q = window.location.search.match(/[\?&]q=([^&]*)/) ? decodeURIComponent(window.location.search.match(/[\?&]q=([^&]*)/)[1]) : "";
 
-const fetchPosts = async (page) => {
-    const res = await fetch(`/shersocial/api/posts?page=${page}`);
+const fetchPosts = async (q, page) => {
+    const res = await fetch(`/shersocial/api/search?q=${q}&page=${page}`);
     if (res.ok) {
         const data = await res.json();
         resultData.page = data.page;
@@ -16,7 +17,7 @@ const fetchPosts = async (page) => {
 
 const appendPosts = (posts) => {
     if (resultData.page === 1 && posts.length === 0) {
-        postsContainer.innerHTML += `<h5 class="text-center p-0">There are currently no posts. Be the first!</h5>`;
+        postsContainer.innerHTML += `<h5 class="text-center p-0">No results.</h5>`;
     }
     else {
         if (document.getElementById("load-more-posts")) {
@@ -74,7 +75,7 @@ const appendPosts = (posts) => {
         postsContainer.innerHTML += postsInnerHTML;
         if (resultData.page < resultData.pages) {
             postsContainer.innerHTML += `<a class="text-center" role="button" id="load-more-posts">Load more</a>`;
-            document.getElementById("load-more-posts").addEventListener("click", () => fetchPosts(resultData.page + 1));
+            document.getElementById("load-more-posts").addEventListener("click", () => fetchPosts(q, resultData.page + 1));
         };
     }
 };
@@ -86,6 +87,7 @@ const handleSearch = (e) => {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetchPosts(1);
+    searchInput.value = q;
+    fetchPosts(q, 1);
     searchForm.addEventListener("submit", handleSearch);
 });
