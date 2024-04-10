@@ -1,7 +1,7 @@
 
 # SherSocial
 SherSocial is a website intended for students to share thoughts and ideas as well as ask for opinions and more. It is made with Express.js along with other NPM packages. This read-me goes over the main concepts used to create it.
-# Package List
+## Package List
 * [bcrypt@5.1.1](https://www.npmjs.com/package/bcrypt/v/5.1.1)
 * [body-parser@1.20.2](https://www.npmjs.com/package/body-parser/v/1.20.2)
 * [cookie-parser@1.4.6](https://www.npmjs.com/package/cookie-parser/v/1.4.6)
