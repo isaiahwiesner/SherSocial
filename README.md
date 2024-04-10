@@ -1,6 +1,19 @@
 
 # SherSocial
 SherSocial is a website intended for students to share thoughts and ideas as well as ask for opinions and more. It is made with Express.js along with other NPM packages. This read-me goes over the main concepts used to create it.
+# Package List
+* [bcrypt@5.1.1](https://www.npmjs.com/package/bcrypt/v/5.1.1)
+* [body-parser@1.20.2](https://www.npmjs.com/package/body-parser/v/1.20.2)
+* [cookie-parser@1.4.6](https://www.npmjs.com/package/cookie-parser/v/1.4.6)
+* [crypto@1.0.1](https://www.npmjs.com/package/crypto/v/1.0.1)
+* [dotenv@16.4.5](https://www.npmjs.com/package/dotenv/v/16.4.5)
+* [ejs@3.1.9](https://www.npmjs.com/package/ejs/v/3.1.9)
+* [express-validator@7.0.1](https://www.npmjs.com/package/express-validator/v/7.0.1)
+* [express@4.19.2](https://www.npmjs.com/package/express/v/4.19.2)
+* [jsonwebtoken@9.0.2](https://www.npmjs.com/package/jsonwebtoken/v/9.0.2)
+* [mysql@2.18.1](https://www.npmjs.com/package/mysql/v/2.18.1)
+* [nodemon@3.1.0](https://www.npmjs.com/package/nodemon/v/3.1.0)
+* [uuid@9.0.1](https://www.npmjs.com/package/uuid/v/9.0.1)
 
 # Basic Concepts
 This section will cover basic concepts from the application.
@@ -101,9 +114,9 @@ You are going to need to store your EJS files in a folder called "views". A comm
 ```
 ├── appfolder
 │   ├── app.js
-│   ├── views
-│   │   ├── pages
-│   │   ├── partials
+│   └── views
+│       ├── pages
+└───────└── partials
 ```
 ## Step 4 - Render Responses
 In either your mail app file or a file containing a router, you will use this code in to render.
