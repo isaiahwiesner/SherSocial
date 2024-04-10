@@ -46,8 +46,8 @@ const mysql = require("mysql");
 const connection = mysql.createConnection({
     host: "127.0.0.1", // if this is running on the same server as the SQL (which it is)
     port: 3306, // The SQL port for most providers
-    user: "username", // Your cPanel username
-    password: "Password123", // Your cPanel password
+    user: "username", // Your cPanel SQL username
+    password: "Password123", // Your cPanel SQL password
     database: "test_db" // The database being used
 });
 ```
