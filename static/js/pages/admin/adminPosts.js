@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
         q: window.location.search.match(/[\?&]q=([^&]*)/) ? window.location.search.match(/[\?&]q=([^&]*)/)[1] : null,
         page: window.location.search.match(/[\?&]page=([^&]*)/) ? parseInt(window.location.search.match(/[\?&]page=([^&]*)/)[1]) : 1,
         resultsPerPage: window.location.search.match(/[\?&]resultsPerPage=([^&]*)/) ? parseInt(window.location.search.match(/[\?&]resultsPerPage=([^&]*)/)[1]) : 10,
-        orderBy: window.location.search.match(/[\?&]orderBy=([^&]*)/) ? parseInt(window.location.search.match(/[\?&]orderBy=([^&]*)/)[1]) : "createdAt DESC"
+        orderBy: window.location.search.match(/[\?&]orderBy=([^&]*)/) ? window.location.search.match(/[\?&]orderBy=([^&]*)/)[1] : "createdAt DESC"
     };
     var perPageHTML = "";
     perPageHTML += `
